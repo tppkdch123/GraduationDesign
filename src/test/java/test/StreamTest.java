@@ -26,7 +26,7 @@ public class StreamTest {
             bigStringList.add(uuid);
             bigStringLinkedList.add(uuid);
         }
-        for(int i=0;i<100000;i++){
+        for (int i = 0; i < 100000; i++) {
             bigList.add(i);
         }
     }
@@ -76,60 +76,21 @@ public class StreamTest {
     }
 
     @Test
-    public void testReduce(){
-        Stream<Integer> stream=Stream.of(1,2,3,4,5,8,11).parallel();
-        System.out.println(stream.reduce(new ArrayList<Integer>(),(result,b)->{result.add(b);return result;},(c,d)->{
-        return c;}));
-    }
-    public void bbq(List<Integer> list,List<Integer> list2){
-
-   list2.stream().forEach(integer -> {if(!list.contains(integer))list.add(integer);});
-    }
-
-    @Test
-    public void testSSh(){
-        List<User> userList=new ArrayList<>();
-        userList.add(new User("1","1","xxx"));
-        userList.add(new User("2","2","xxx1"));
-        userList.add(new User("3","2","xxx2"));
-        userList.add(new User("1","1","xxx3"));
-        userList.add(new User("2","2","xxx4"));
-        userList.add(new User("1","1","xxx5"));
-        userList.add(new User("3","2","xxx6"));
-        Map<String,Map<String,List<User>>> xxx=userList.stream().reduce(new HashMap<String,Map<String,List<User>>>(),(result, b)->{
-            if(result.get(b.a)!=null){
-                if(result.get(b.a).get(b.b)!=null){
-                    result.get(b.a).get(b.b).add(b);
-                }
-                else{
-                result.get(b.a).put(b.b,Lists.newArrayList(b));
-                }
-            }
-            else{
-                List<User> L=new ArrayList<>();
-                L.add(b);
-                Map<String,List<User>> map=new HashMap<>();
-                map.put(b.b,L);
-                result.put(b.a,map);
-            }
+    public void testReduce() {
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 8, 11).parallel();
+        System.out.println(stream.reduce(new ArrayList<Integer>(), (result, b) -> {
+            result.add(b);
             return result;
-        },(c,d)->c);
-        System.out.println(xxx);
-        xxx=userList.stream().collect(Collectors.groupingBy(User::getA,Collectors.groupingBy(User::getB)));
-      System.out.println(userList.stream().collect(Collectors.groupingBy(User::getA,Collectors.counting())));
-        System.out.println(xxx);
-    }
-}
-@Data
-class User{
-    String a;
-    String b;
-    public User(String a, String b, String content) {
-        this.a = a;
-        this.b = b;
-        this.content = content;
+        }, (c, d) -> {
+            return c;
+        }));
     }
 
-    String content;
+    public void bbq(List<Integer> list, List<Integer> list2) {
+
+        list2.stream().forEach(integer -> {
+            if (!list.contains(integer)) list.add(integer);
+        });
+    }
 
 }
