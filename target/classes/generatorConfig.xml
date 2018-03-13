@@ -88,9 +88,15 @@
         </table>
         <table tableName="activity" domainObjectName="Activity" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>
+        <table tableName="comment" domainObjectName="Comment" delimitIdentifiers="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>-->
-        <table tableName="collection" domainObjectName="Collection" delimitIdentifiers="true">
+        <table tableName="order" domainObjectName="Order" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
+        <!--<table tableName="collection" domainObjectName="Collection" delimitIdentifiers="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>-->
     </context>
 </generatorConfiguration>
