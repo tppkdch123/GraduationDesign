@@ -17,7 +17,7 @@ import java.io.IOException;
 @Data
 @MapperScan(basePackages = "org.graduationdesign.mappers",sqlSessionFactoryRef = "sqlSessionFactory")
 public class SpringBootConfig {
-  private static final String url="jdbc:mysql://127.0.0.1:3306/mydatabase?user=root";
+  private static final String url="jdbc:mysql://127.0.0.1:3306/mydb?user=root";
   private static final String username="root";
   private static final String password="a19960901";
   private static final String driverClassName="com.mysql.jdbc.Driver";

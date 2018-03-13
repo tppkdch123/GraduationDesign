@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.graduationdesign.mappers.huangShiZheMapper">
-  <resultMap id="BaseResultMap" type="org.graduationdesign.entity.huangShiZhe">
+<mapper namespace="org.graduationdesign.mappers.LevelMapper">
+  <resultMap id="BaseResultMap" type="org.graduationdesign.entity.Level">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="level_name" jdbcType="VARCHAR" property="levelName" />
+    <result column="level_need_score" jdbcType="INTEGER" property="levelNeedScore" />
+    <result column="level_type" jdbcType="TINYINT" property="levelType" />
+    <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, sex
+    id, level_name, level_need_score, level_type, type
   </sql>
-  <select id="selectByExample" parameterType="org.graduationdesign.entity.huangShiZheExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.graduationdesign.entity.LevelExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from `huangshizhe`
+    from `level`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,65 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from `huangshizhe`
+    from `level`
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from `huangshizhe`
+    delete from `level`
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.graduationdesign.entity.huangShiZheExample">
-    delete from `huangshizhe`
+  <delete id="deleteByExample" parameterType="org.graduationdesign.entity.LevelExample">
+    delete from `level`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.graduationdesign.entity.huangShiZhe">
+  <insert id="insert" parameterType="org.graduationdesign.entity.Level">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into `huangshizhe` (name, sex)
-    values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=BIT})
+    insert into `level` (level_name, level_need_score, level_type, 
+      type)
+    values (#{levelName,jdbcType=VARCHAR}, #{levelNeedScore,jdbcType=INTEGER}, #{levelType,jdbcType=TINYINT}, 
+      #{type,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="org.graduationdesign.entity.huangShiZhe">
+  <insert id="insertSelective" parameterType="org.graduationdesign.entity.Level">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into `huangshizhe`
+    insert into `level`
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="levelName != null">
+        level_name,
       </if>
-      <if test="sex != null">
-        sex,
+      <if test="levelNeedScore != null">
+        level_need_score,
+      </if>
+      <if test="levelType != null">
+        level_type,
+      </if>
+      <if test="type != null">
+        type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="levelName != null">
+        #{levelName,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null">
-        #{sex,jdbcType=BIT},
+      <if test="levelNeedScore != null">
+        #{levelNeedScore,jdbcType=INTEGER},
+      </if>
+      <if test="levelType != null">
+        #{levelType,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.graduationdesign.entity.huangShiZheExample" resultType="java.lang.Integer">
-    select count(*) from `huangshizhe`
+  <select id="countByExample" parameterType="org.graduationdesign.entity.LevelExample" resultType="java.lang.Integer">
+    select count(*) from `level`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update `huangshizhe`
+    update `level`
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.levelName != null">
+        level_name = #{record.levelName,jdbcType=VARCHAR},
       </if>
-      <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=BIT},
+      <if test="record.levelNeedScore != null">
+        level_need_score = #{record.levelNeedScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.levelType != null">
+        level_type = #{record.levelType,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -150,30 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update `huangshizhe`
+    update `level`
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=BIT}
+      level_name = #{record.levelName,jdbcType=VARCHAR},
+      level_need_score = #{record.levelNeedScore,jdbcType=INTEGER},
+      level_type = #{record.levelType,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.graduationdesign.entity.huangShiZhe">
-    update `huangshizhe`
+  <update id="updateByPrimaryKeySelective" parameterType="org.graduationdesign.entity.Level">
+    update `level`
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="levelName != null">
+        level_name = #{levelName,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=BIT},
+      <if test="levelNeedScore != null">
+        level_need_score = #{levelNeedScore,jdbcType=INTEGER},
+      </if>
+      <if test="levelType != null">
+        level_type = #{levelType,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.graduationdesign.entity.huangShiZhe">
-    update `huangshizhe`
-    set name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=BIT}
+  <update id="updateByPrimaryKey" parameterType="org.graduationdesign.entity.Level">
+    update `level`
+    set level_name = #{levelName,jdbcType=VARCHAR},
+      level_need_score = #{levelNeedScore,jdbcType=INTEGER},
+      level_type = #{levelType,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
