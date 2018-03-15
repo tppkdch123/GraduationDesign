@@ -41,13 +41,13 @@
                              targetPackage="org.graduationdesign.mappers" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
-        <!--<table tableName="user" domainObjectName="User" delimitIdentifiers="true">
+        <!--<table tableName="room" domainObjectName="Room" delimitIdentifiers="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>
+        <table tableName="user" domainObjectName="User" delimitIdentifiers="true">
            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
         <table tableName="provider" domainObjectName="Provider" delimitIdentifiers="true">
-            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
-        <table tableName="room" domainObjectName="Room" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
         <table tableName="province" domainObjectName="Province" delimitIdentifiers="true">
@@ -74,9 +74,7 @@
         <table tableName="data_price" domainObjectName="DataPrice" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
-        <table tableName="room_extend" domainObjectName="RoomExtend" delimitIdentifiers="true">
-            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
+
         <table tableName="coupon" domainObjectName="Coupon" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
@@ -91,12 +89,15 @@
         </table>
         <table tableName="comment" domainObjectName="Comment" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>-->
+        </table>
         <table tableName="order" domainObjectName="Order" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
+        </table>-->
         <!--<table tableName="collection" domainObjectName="Collection" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>-->
+        <table tableName="room_extend" domainObjectName="RoomExtend" delimitIdentifiers="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>
     </context>
 </generatorConfiguration>

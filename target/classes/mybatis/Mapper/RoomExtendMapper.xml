@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.graduationdesign.mappers.RoomExtendMapper">
   <resultMap id="BaseResultMap" type="org.graduationdesign.entity.RoomExtend">
-    <id column="room_id" jdbcType="BIGINT" property="roomId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="room_id" jdbcType="BIGINT" property="roomId" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="value" jdbcType="VARCHAR" property="value" />
     <result column="info" jdbcType="VARCHAR" property="info" />
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    room_id, type, value, info
+    id, room_id, type, value, info
   </sql>
   <select id="selectByExample" parameterType="org.graduationdesign.entity.RoomExtendExample" resultMap="BaseResultMap">
     select
@@ -86,11 +87,11 @@
     select 
     <include refid="Base_Column_List" />
     from `room_extend`
-    where room_id = #{roomId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from `room_extend`
-    where room_id = #{roomId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="org.graduationdesign.entity.RoomExtendExample">
     delete from `room_extend`
@@ -99,12 +100,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.graduationdesign.entity.RoomExtend">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into `room_extend` (room_id, type, value, 
       info)
     values (#{roomId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
       #{info,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.graduationdesign.entity.RoomExtend">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into `room_extend`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roomId != null">
@@ -144,6 +151,9 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `room_extend`
     <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
       <if test="record.roomId != null">
         room_id = #{record.roomId,jdbcType=BIGINT},
       </if>
@@ -163,7 +173,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update `room_extend`
-    set room_id = #{record.roomId,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=BIGINT},
+      room_id = #{record.roomId,jdbcType=BIGINT},
       type = #{record.type,jdbcType=INTEGER},
       value = #{record.value,jdbcType=VARCHAR},
       info = #{record.info,jdbcType=VARCHAR}
@@ -174,6 +185,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="org.graduationdesign.entity.RoomExtend">
     update `room_extend`
     <set>
+      <if test="roomId != null">
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
@@ -184,13 +198,14 @@
         info = #{info,jdbcType=VARCHAR},
       </if>
     </set>
-    where room_id = #{roomId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.graduationdesign.entity.RoomExtend">
     update `room_extend`
-    set type = #{type,jdbcType=INTEGER},
+    set room_id = #{roomId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
       value = #{value,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR}
-    where room_id = #{roomId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

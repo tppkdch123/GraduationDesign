@@ -10,7 +10,7 @@ public interface RoomExtendMapper {
 
     int deleteByExample(RoomExtendExample example);
 
-    int deleteByPrimaryKey(Long roomId);
+    int deleteByPrimaryKey(Long id);
 
     int insert(RoomExtend record);
 
@@ -18,7 +18,7 @@ public interface RoomExtendMapper {
 
     List<RoomExtend> selectByExample(RoomExtendExample example);
 
-    RoomExtend selectByPrimaryKey(Long roomId);
+    RoomExtend selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") RoomExtend record, @Param("example") RoomExtendExample example);
 

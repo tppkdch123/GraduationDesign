@@ -3,6 +3,8 @@ package org.graduationdesign.entity;
 import java.io.Serializable;
 
 public class RoomExtend implements Serializable {
+    private Long id;
+
     private Long roomId;
 
     private Integer type;
@@ -12,6 +14,14 @@ public class RoomExtend implements Serializable {
     private String info;
 
     private static final long serialVersionUID = 1L;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getRoomId() {
         return roomId;

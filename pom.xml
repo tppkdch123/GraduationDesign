@@ -62,6 +62,12 @@
         <version>3.6</version>
         <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.python/jython -->
+    <dependency>
+        <groupId>org.python</groupId>
+        <artifactId>jython</artifactId>
+        <version>2.7.1b3</version>
+    </dependency>
 
 </dependencies>
     <build>

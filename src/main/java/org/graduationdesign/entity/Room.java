@@ -10,11 +10,9 @@ public class Room implements Serializable {
 
     private String title;
 
-    private Float defaultPrice;
+    private Integer defaultPrice;
 
     private Integer maxCapacity;
-
-    private String introduction;
 
     private Integer usableArea;
 
@@ -34,9 +32,9 @@ public class Room implements Serializable {
 
     private String hostMessage;
 
-    private Long latitude;
+    private Float latitude;
 
-    private Long longitude;
+    private Float longitude;
 
     private String street;
 
@@ -61,8 +59,6 @@ public class Room implements Serializable {
     private String lastestCheckInTime;
 
     private String lastestCheckOutTime;
-
-    private String description;
 
     private static final long serialVersionUID = 1L;
 
@@ -90,11 +86,11 @@ public class Room implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
-    public Float getDefaultPrice() {
+    public Integer getDefaultPrice() {
         return defaultPrice;
     }
 
-    public void setDefaultPrice(Float defaultPrice) {
+    public void setDefaultPrice(Integer defaultPrice) {
         this.defaultPrice = defaultPrice;
     }
 
@@ -104,14 +100,6 @@ public class Room implements Serializable {
 
     public void setMaxCapacity(Integer maxCapacity) {
         this.maxCapacity = maxCapacity;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction == null ? null : introduction.trim();
     }
 
     public Integer getUsableArea() {
@@ -186,19 +174,19 @@ public class Room implements Serializable {
         this.hostMessage = hostMessage == null ? null : hostMessage.trim();
     }
 
-    public Long getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Float latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
 
@@ -296,13 +284,5 @@ public class Room implements Serializable {
 
     public void setLastestCheckOutTime(String lastestCheckOutTime) {
         this.lastestCheckOutTime = lastestCheckOutTime == null ? null : lastestCheckOutTime.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 }

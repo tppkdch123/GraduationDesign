@@ -305,52 +305,52 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceEqualTo(Float value) {
+        public Criteria andDefaultPriceEqualTo(Integer value) {
             addCriterion("default_price =", value, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceNotEqualTo(Float value) {
+        public Criteria andDefaultPriceNotEqualTo(Integer value) {
             addCriterion("default_price <>", value, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceGreaterThan(Float value) {
+        public Criteria andDefaultPriceGreaterThan(Integer value) {
             addCriterion("default_price >", value, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceGreaterThanOrEqualTo(Float value) {
+        public Criteria andDefaultPriceGreaterThanOrEqualTo(Integer value) {
             addCriterion("default_price >=", value, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceLessThan(Float value) {
+        public Criteria andDefaultPriceLessThan(Integer value) {
             addCriterion("default_price <", value, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceLessThanOrEqualTo(Float value) {
+        public Criteria andDefaultPriceLessThanOrEqualTo(Integer value) {
             addCriterion("default_price <=", value, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceIn(List<Float> values) {
+        public Criteria andDefaultPriceIn(List<Integer> values) {
             addCriterion("default_price in", values, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceNotIn(List<Float> values) {
+        public Criteria andDefaultPriceNotIn(List<Integer> values) {
             addCriterion("default_price not in", values, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceBetween(Float value1, Float value2) {
+        public Criteria andDefaultPriceBetween(Integer value1, Integer value2) {
             addCriterion("default_price between", value1, value2, "defaultPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDefaultPriceNotBetween(Float value1, Float value2) {
+        public Criteria andDefaultPriceNotBetween(Integer value1, Integer value2) {
             addCriterion("default_price not between", value1, value2, "defaultPrice");
             return (Criteria) this;
         }
@@ -412,76 +412,6 @@ public class RoomExample {
 
         public Criteria andMaxCapacityNotBetween(Integer value1, Integer value2) {
             addCriterion("max_capacity not between", value1, value2, "maxCapacity");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionIsNull() {
-            addCriterion("introduction is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionIsNotNull() {
-            addCriterion("introduction is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionEqualTo(String value) {
-            addCriterion("introduction =", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionNotEqualTo(String value) {
-            addCriterion("introduction <>", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionGreaterThan(String value) {
-            addCriterion("introduction >", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionGreaterThanOrEqualTo(String value) {
-            addCriterion("introduction >=", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionLessThan(String value) {
-            addCriterion("introduction <", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionLessThanOrEqualTo(String value) {
-            addCriterion("introduction <=", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionLike(String value) {
-            addCriterion("introduction like", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionNotLike(String value) {
-            addCriterion("introduction not like", value, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionIn(List<String> values) {
-            addCriterion("introduction in", values, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionNotIn(List<String> values) {
-            addCriterion("introduction not in", values, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionBetween(String value1, String value2) {
-            addCriterion("introduction between", value1, value2, "introduction");
-            return (Criteria) this;
-        }
-
-        public Criteria andIntroductionNotBetween(String value1, String value2) {
-            addCriterion("introduction not between", value1, value2, "introduction");
             return (Criteria) this;
         }
 
@@ -1065,52 +995,52 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeEqualTo(Long value) {
+        public Criteria andLatitudeEqualTo(Float value) {
             addCriterion("latitude =", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeNotEqualTo(Long value) {
+        public Criteria andLatitudeNotEqualTo(Float value) {
             addCriterion("latitude <>", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeGreaterThan(Long value) {
+        public Criteria andLatitudeGreaterThan(Float value) {
             addCriterion("latitude >", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeGreaterThanOrEqualTo(Long value) {
+        public Criteria andLatitudeGreaterThanOrEqualTo(Float value) {
             addCriterion("latitude >=", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeLessThan(Long value) {
+        public Criteria andLatitudeLessThan(Float value) {
             addCriterion("latitude <", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeLessThanOrEqualTo(Long value) {
+        public Criteria andLatitudeLessThanOrEqualTo(Float value) {
             addCriterion("latitude <=", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeIn(List<Long> values) {
+        public Criteria andLatitudeIn(List<Float> values) {
             addCriterion("latitude in", values, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeNotIn(List<Long> values) {
+        public Criteria andLatitudeNotIn(List<Float> values) {
             addCriterion("latitude not in", values, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeBetween(Long value1, Long value2) {
+        public Criteria andLatitudeBetween(Float value1, Float value2) {
             addCriterion("latitude between", value1, value2, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeNotBetween(Long value1, Long value2) {
+        public Criteria andLatitudeNotBetween(Float value1, Float value2) {
             addCriterion("latitude not between", value1, value2, "latitude");
             return (Criteria) this;
         }
@@ -1125,52 +1055,52 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeEqualTo(Long value) {
+        public Criteria andLongitudeEqualTo(Float value) {
             addCriterion("longitude =", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeNotEqualTo(Long value) {
+        public Criteria andLongitudeNotEqualTo(Float value) {
             addCriterion("longitude <>", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeGreaterThan(Long value) {
+        public Criteria andLongitudeGreaterThan(Float value) {
             addCriterion("longitude >", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeGreaterThanOrEqualTo(Long value) {
+        public Criteria andLongitudeGreaterThanOrEqualTo(Float value) {
             addCriterion("longitude >=", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeLessThan(Long value) {
+        public Criteria andLongitudeLessThan(Float value) {
             addCriterion("longitude <", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeLessThanOrEqualTo(Long value) {
+        public Criteria andLongitudeLessThanOrEqualTo(Float value) {
             addCriterion("longitude <=", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeIn(List<Long> values) {
+        public Criteria andLongitudeIn(List<Float> values) {
             addCriterion("longitude in", values, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeNotIn(List<Long> values) {
+        public Criteria andLongitudeNotIn(List<Float> values) {
             addCriterion("longitude not in", values, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeBetween(Long value1, Long value2) {
+        public Criteria andLongitudeBetween(Float value1, Float value2) {
             addCriterion("longitude between", value1, value2, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeNotBetween(Long value1, Long value2) {
+        public Criteria andLongitudeNotBetween(Float value1, Float value2) {
             addCriterion("longitude not between", value1, value2, "longitude");
             return (Criteria) this;
         }
@@ -1942,76 +1872,6 @@ public class RoomExample {
 
         public Criteria andLastestCheckOutTimeNotBetween(String value1, String value2) {
             addCriterion("lastest_check_out_time not between", value1, value2, "lastestCheckOutTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNull() {
-            addCriterion("description is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNotNull() {
-            addCriterion("description is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionEqualTo(String value) {
-            addCriterion("description =", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotEqualTo(String value) {
-            addCriterion("description <>", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThan(String value) {
-            addCriterion("description >", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
-            addCriterion("description >=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThan(String value) {
-            addCriterion("description <", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThanOrEqualTo(String value) {
-            addCriterion("description <=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLike(String value) {
-            addCriterion("description like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotLike(String value) {
-            addCriterion("description not like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIn(List<String> values) {
-            addCriterion("description in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotIn(List<String> values) {
-            addCriterion("description not in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionBetween(String value1, String value2) {
-            addCriterion("description between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotBetween(String value1, String value2) {
-            addCriterion("description not between", value1, value2, "description");
             return (Criteria) this;
         }
     }

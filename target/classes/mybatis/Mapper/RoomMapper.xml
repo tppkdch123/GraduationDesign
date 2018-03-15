@@ -5,9 +5,8 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="provider_id" jdbcType="BIGINT" property="providerId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="default_price" jdbcType="REAL" property="defaultPrice" />
+    <result column="default_price" jdbcType="INTEGER" property="defaultPrice" />
     <result column="max_capacity" jdbcType="INTEGER" property="maxCapacity" />
-    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
     <result column="usable_area" jdbcType="INTEGER" property="usableArea" />
     <result column="structure" jdbcType="VARCHAR" property="structure" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -17,8 +16,8 @@
     <result column="bed_count" jdbcType="INTEGER" property="bedCount" />
     <result column="comment_number" jdbcType="INTEGER" property="commentNumber" />
     <result column="host_message" jdbcType="VARCHAR" property="hostMessage" />
-    <result column="latitude" jdbcType="BIGINT" property="latitude" />
-    <result column="longitude" jdbcType="BIGINT" property="longitude" />
+    <result column="latitude" jdbcType="REAL" property="latitude" />
+    <result column="longitude" jdbcType="REAL" property="longitude" />
     <result column="street" jdbcType="VARCHAR" property="street" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
     <result column="is_onsale" jdbcType="TINYINT" property="isOnsale" />
@@ -31,7 +30,10 @@
     <result column="earliest_check_in_time" jdbcType="VARCHAR" property="earliestCheckInTime" />
     <result column="lastest_check_in_time" jdbcType="VARCHAR" property="lastestCheckInTime" />
     <result column="lastest_check_out_time" jdbcType="VARCHAR" property="lastestCheckOutTime" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.graduationdesign.entity.RoomWithBLOBs">
+    <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -92,12 +94,30 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, provider_id, title, default_price, max_capacity, introduction, usable_area, structure, 
-    create_time, update_time, around_info, real_check, bed_count, comment_number, host_message, 
-    latitude, longitude, street, is_delete, is_onsale, city_id, province_id, district_id, 
-    block, area_id, move_up_cancel_days, earliest_check_in_time, lastest_check_in_time, 
-    lastest_check_out_time, description
+    id, provider_id, title, default_price, max_capacity, usable_area, structure, create_time, 
+    update_time, around_info, real_check, bed_count, comment_number, host_message, latitude, 
+    longitude, street, is_delete, is_onsale, city_id, province_id, district_id, block, 
+    area_id, move_up_cancel_days, earliest_check_in_time, lastest_check_in_time, lastest_check_out_time
   </sql>
+  <sql id="Blob_Column_List">
+    introduction, description
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.graduationdesign.entity.RoomExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `room`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="org.graduationdesign.entity.RoomExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -112,9 +132,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from `room`
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -128,34 +150,34 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.graduationdesign.entity.Room">
+  <insert id="insert" parameterType="org.graduationdesign.entity.RoomWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `room` (provider_id, title, default_price, 
-      max_capacity, introduction, usable_area, 
-      structure, create_time, update_time, 
-      around_info, real_check, bed_count, 
-      comment_number, host_message, latitude, 
-      longitude, street, is_delete, 
-      is_onsale, city_id, province_id, 
-      district_id, block, area_id, 
-      move_up_cancel_days, earliest_check_in_time, 
-      lastest_check_in_time, lastest_check_out_time, 
+      max_capacity, usable_area, structure, 
+      create_time, update_time, around_info, 
+      real_check, bed_count, comment_number, 
+      host_message, latitude, longitude, 
+      street, is_delete, is_onsale, 
+      city_id, province_id, district_id, 
+      block, area_id, move_up_cancel_days, 
+      earliest_check_in_time, lastest_check_in_time, 
+      lastest_check_out_time, introduction, 
       description)
-    values (#{providerId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{defaultPrice,jdbcType=REAL}, 
-      #{maxCapacity,jdbcType=INTEGER}, #{introduction,jdbcType=VARCHAR}, #{usableArea,jdbcType=INTEGER}, 
-      #{structure,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{aroundInfo,jdbcType=VARCHAR}, #{realCheck,jdbcType=TINYINT}, #{bedCount,jdbcType=INTEGER}, 
-      #{commentNumber,jdbcType=INTEGER}, #{hostMessage,jdbcType=VARCHAR}, #{latitude,jdbcType=BIGINT}, 
-      #{longitude,jdbcType=BIGINT}, #{street,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, 
-      #{isOnsale,jdbcType=TINYINT}, #{cityId,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER}, 
-      #{districtId,jdbcType=BIGINT}, #{block,jdbcType=VARCHAR}, #{areaId,jdbcType=BIGINT}, 
-      #{moveUpCancelDays,jdbcType=INTEGER}, #{earliestCheckInTime,jdbcType=VARCHAR}, 
-      #{lastestCheckInTime,jdbcType=VARCHAR}, #{lastestCheckOutTime,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR})
+    values (#{providerId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{defaultPrice,jdbcType=INTEGER}, 
+      #{maxCapacity,jdbcType=INTEGER}, #{usableArea,jdbcType=INTEGER}, #{structure,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{aroundInfo,jdbcType=VARCHAR}, 
+      #{realCheck,jdbcType=TINYINT}, #{bedCount,jdbcType=INTEGER}, #{commentNumber,jdbcType=INTEGER}, 
+      #{hostMessage,jdbcType=VARCHAR}, #{latitude,jdbcType=REAL}, #{longitude,jdbcType=REAL}, 
+      #{street,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{isOnsale,jdbcType=TINYINT}, 
+      #{cityId,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER}, #{districtId,jdbcType=BIGINT}, 
+      #{block,jdbcType=VARCHAR}, #{areaId,jdbcType=BIGINT}, #{moveUpCancelDays,jdbcType=INTEGER}, 
+      #{earliestCheckInTime,jdbcType=VARCHAR}, #{lastestCheckInTime,jdbcType=VARCHAR}, 
+      #{lastestCheckOutTime,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="org.graduationdesign.entity.Room">
+  <insert id="insertSelective" parameterType="org.graduationdesign.entity.RoomWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -172,9 +194,6 @@
       </if>
       <if test="maxCapacity != null">
         max_capacity,
-      </if>
-      <if test="introduction != null">
-        introduction,
       </if>
       <if test="usableArea != null">
         usable_area,
@@ -245,6 +264,9 @@
       <if test="lastestCheckOutTime != null">
         lastest_check_out_time,
       </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
       <if test="description != null">
         description,
       </if>
@@ -257,13 +279,10 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="defaultPrice != null">
-        #{defaultPrice,jdbcType=REAL},
+        #{defaultPrice,jdbcType=INTEGER},
       </if>
       <if test="maxCapacity != null">
         #{maxCapacity,jdbcType=INTEGER},
-      </if>
-      <if test="introduction != null">
-        #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="usableArea != null">
         #{usableArea,jdbcType=INTEGER},
@@ -293,10 +312,10 @@
         #{hostMessage,jdbcType=VARCHAR},
       </if>
       <if test="latitude != null">
-        #{latitude,jdbcType=BIGINT},
+        #{latitude,jdbcType=REAL},
       </if>
       <if test="longitude != null">
-        #{longitude,jdbcType=BIGINT},
+        #{longitude,jdbcType=REAL},
       </if>
       <if test="street != null">
         #{street,jdbcType=VARCHAR},
@@ -334,8 +353,11 @@
       <if test="lastestCheckOutTime != null">
         #{lastestCheckOutTime,jdbcType=VARCHAR},
       </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
       <if test="description != null">
-        #{description,jdbcType=VARCHAR},
+        #{description,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -358,13 +380,10 @@
         title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.defaultPrice != null">
-        default_price = #{record.defaultPrice,jdbcType=REAL},
+        default_price = #{record.defaultPrice,jdbcType=INTEGER},
       </if>
       <if test="record.maxCapacity != null">
         max_capacity = #{record.maxCapacity,jdbcType=INTEGER},
-      </if>
-      <if test="record.introduction != null">
-        introduction = #{record.introduction,jdbcType=VARCHAR},
       </if>
       <if test="record.usableArea != null">
         usable_area = #{record.usableArea,jdbcType=INTEGER},
@@ -394,10 +413,10 @@
         host_message = #{record.hostMessage,jdbcType=VARCHAR},
       </if>
       <if test="record.latitude != null">
-        latitude = #{record.latitude,jdbcType=BIGINT},
+        latitude = #{record.latitude,jdbcType=REAL},
       </if>
       <if test="record.longitude != null">
-        longitude = #{record.longitude,jdbcType=BIGINT},
+        longitude = #{record.longitude,jdbcType=REAL},
       </if>
       <if test="record.street != null">
         street = #{record.street,jdbcType=VARCHAR},
@@ -435,22 +454,24 @@
       <if test="record.lastestCheckOutTime != null">
         lastest_check_out_time = #{record.lastestCheckOutTime,jdbcType=VARCHAR},
       </if>
+      <if test="record.introduction != null">
+        introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      </if>
       <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
+        description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExampleWithBLOBs" parameterType="map">
     update `room`
     set id = #{record.id,jdbcType=BIGINT},
       provider_id = #{record.providerId,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
-      default_price = #{record.defaultPrice,jdbcType=REAL},
+      default_price = #{record.defaultPrice,jdbcType=INTEGER},
       max_capacity = #{record.maxCapacity,jdbcType=INTEGER},
-      introduction = #{record.introduction,jdbcType=VARCHAR},
       usable_area = #{record.usableArea,jdbcType=INTEGER},
       structure = #{record.structure,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -460,8 +481,8 @@
       bed_count = #{record.bedCount,jdbcType=INTEGER},
       comment_number = #{record.commentNumber,jdbcType=INTEGER},
       host_message = #{record.hostMessage,jdbcType=VARCHAR},
-      latitude = #{record.latitude,jdbcType=BIGINT},
-      longitude = #{record.longitude,jdbcType=BIGINT},
+      latitude = #{record.latitude,jdbcType=REAL},
+      longitude = #{record.longitude,jdbcType=REAL},
       street = #{record.street,jdbcType=VARCHAR},
       is_delete = #{record.isDelete,jdbcType=TINYINT},
       is_onsale = #{record.isOnsale,jdbcType=TINYINT},
@@ -474,12 +495,47 @@
       earliest_check_in_time = #{record.earliestCheckInTime,jdbcType=VARCHAR},
       lastest_check_in_time = #{record.lastestCheckInTime,jdbcType=VARCHAR},
       lastest_check_out_time = #{record.lastestCheckOutTime,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR}
+      introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.graduationdesign.entity.Room">
+  <update id="updateByExample" parameterType="map">
+    update `room`
+    set id = #{record.id,jdbcType=BIGINT},
+      provider_id = #{record.providerId,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      default_price = #{record.defaultPrice,jdbcType=INTEGER},
+      max_capacity = #{record.maxCapacity,jdbcType=INTEGER},
+      usable_area = #{record.usableArea,jdbcType=INTEGER},
+      structure = #{record.structure,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      around_info = #{record.aroundInfo,jdbcType=VARCHAR},
+      real_check = #{record.realCheck,jdbcType=TINYINT},
+      bed_count = #{record.bedCount,jdbcType=INTEGER},
+      comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      host_message = #{record.hostMessage,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=REAL},
+      longitude = #{record.longitude,jdbcType=REAL},
+      street = #{record.street,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      is_onsale = #{record.isOnsale,jdbcType=TINYINT},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      province_id = #{record.provinceId,jdbcType=INTEGER},
+      district_id = #{record.districtId,jdbcType=BIGINT},
+      block = #{record.block,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=BIGINT},
+      move_up_cancel_days = #{record.moveUpCancelDays,jdbcType=INTEGER},
+      earliest_check_in_time = #{record.earliestCheckInTime,jdbcType=VARCHAR},
+      lastest_check_in_time = #{record.lastestCheckInTime,jdbcType=VARCHAR},
+      lastest_check_out_time = #{record.lastestCheckOutTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.graduationdesign.entity.RoomWithBLOBs">
     update `room`
     <set>
       <if test="providerId != null">
@@ -489,13 +545,10 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="defaultPrice != null">
-        default_price = #{defaultPrice,jdbcType=REAL},
+        default_price = #{defaultPrice,jdbcType=INTEGER},
       </if>
       <if test="maxCapacity != null">
         max_capacity = #{maxCapacity,jdbcType=INTEGER},
-      </if>
-      <if test="introduction != null">
-        introduction = #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="usableArea != null">
         usable_area = #{usableArea,jdbcType=INTEGER},
@@ -525,10 +578,10 @@
         host_message = #{hostMessage,jdbcType=VARCHAR},
       </if>
       <if test="latitude != null">
-        latitude = #{latitude,jdbcType=BIGINT},
+        latitude = #{latitude,jdbcType=REAL},
       </if>
       <if test="longitude != null">
-        longitude = #{longitude,jdbcType=BIGINT},
+        longitude = #{longitude,jdbcType=REAL},
       </if>
       <if test="street != null">
         street = #{street,jdbcType=VARCHAR},
@@ -566,19 +619,21 @@
       <if test="lastestCheckOutTime != null">
         lastest_check_out_time = #{lastestCheckOutTime,jdbcType=VARCHAR},
       </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
       <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
+        description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.graduationdesign.entity.Room">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.graduationdesign.entity.RoomWithBLOBs">
     update `room`
     set provider_id = #{providerId,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},
-      default_price = #{defaultPrice,jdbcType=REAL},
+      default_price = #{defaultPrice,jdbcType=INTEGER},
       max_capacity = #{maxCapacity,jdbcType=INTEGER},
-      introduction = #{introduction,jdbcType=VARCHAR},
       usable_area = #{usableArea,jdbcType=INTEGER},
       structure = #{structure,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -588,8 +643,8 @@
       bed_count = #{bedCount,jdbcType=INTEGER},
       comment_number = #{commentNumber,jdbcType=INTEGER},
       host_message = #{hostMessage,jdbcType=VARCHAR},
-      latitude = #{latitude,jdbcType=BIGINT},
-      longitude = #{longitude,jdbcType=BIGINT},
+      latitude = #{latitude,jdbcType=REAL},
+      longitude = #{longitude,jdbcType=REAL},
       street = #{street,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=TINYINT},
       is_onsale = #{isOnsale,jdbcType=TINYINT},
@@ -602,7 +657,39 @@
       earliest_check_in_time = #{earliestCheckInTime,jdbcType=VARCHAR},
       lastest_check_in_time = #{lastestCheckInTime,jdbcType=VARCHAR},
       lastest_check_out_time = #{lastestCheckOutTime,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR}
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.graduationdesign.entity.Room">
+    update `room`
+    set provider_id = #{providerId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      default_price = #{defaultPrice,jdbcType=INTEGER},
+      max_capacity = #{maxCapacity,jdbcType=INTEGER},
+      usable_area = #{usableArea,jdbcType=INTEGER},
+      structure = #{structure,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      around_info = #{aroundInfo,jdbcType=VARCHAR},
+      real_check = #{realCheck,jdbcType=TINYINT},
+      bed_count = #{bedCount,jdbcType=INTEGER},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      host_message = #{hostMessage,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=REAL},
+      longitude = #{longitude,jdbcType=REAL},
+      street = #{street,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      is_onsale = #{isOnsale,jdbcType=TINYINT},
+      city_id = #{cityId,jdbcType=INTEGER},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      district_id = #{districtId,jdbcType=BIGINT},
+      block = #{block,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=BIGINT},
+      move_up_cancel_days = #{moveUpCancelDays,jdbcType=INTEGER},
+      earliest_check_in_time = #{earliestCheckInTime,jdbcType=VARCHAR},
+      lastest_check_in_time = #{lastestCheckInTime,jdbcType=VARCHAR},
+      lastest_check_out_time = #{lastestCheckOutTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
