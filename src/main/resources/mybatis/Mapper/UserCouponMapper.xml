@@ -8,7 +8,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="is_invalid" jdbcType="TINYINT" property="isInvalid" />
+    <result column="is_invalid" jdbcType="BIT" property="isInvalid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -109,7 +109,7 @@
       start_time, end_time, is_invalid
       )
     values (#{userId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isInvalid,jdbcType=TINYINT}
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isInvalid,jdbcType=BIT}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.graduationdesign.entity.UserCoupon">
@@ -154,7 +154,7 @@
         #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isInvalid != null">
-        #{isInvalid,jdbcType=TINYINT},
+        #{isInvalid,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -186,7 +186,7 @@
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.isInvalid != null">
-        is_invalid = #{record.isInvalid,jdbcType=TINYINT},
+        is_invalid = #{record.isInvalid,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -201,7 +201,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      is_invalid = #{record.isInvalid,jdbcType=TINYINT}
+      is_invalid = #{record.isInvalid,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -225,7 +225,7 @@
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isInvalid != null">
-        is_invalid = #{isInvalid,jdbcType=TINYINT},
+        is_invalid = #{isInvalid,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -237,7 +237,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      is_invalid = #{isInvalid,jdbcType=TINYINT}
+      is_invalid = #{isInvalid,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -6,7 +6,7 @@
     <result column="room_id" jdbcType="BIGINT" property="roomId" />
     <result column="meta_id" jdbcType="INTEGER" property="metaId" />
     <result column="meta_value" jdbcType="VARCHAR" property="metaValue" />
-    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -106,7 +106,7 @@
     insert into `meta_room` (room_id, meta_id, meta_value, 
       is_delete)
     values (#{roomId,jdbcType=BIGINT}, #{metaId,jdbcType=INTEGER}, #{metaValue,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=TINYINT})
+      #{isDelete,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.graduationdesign.entity.MetaRoom">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -138,7 +138,7 @@
         #{metaValue,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
-        #{isDelete,jdbcType=TINYINT},
+        #{isDelete,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -164,7 +164,7 @@
         meta_value = #{record.metaValue,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null">
-        is_delete = #{record.isDelete,jdbcType=TINYINT},
+        is_delete = #{record.isDelete,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -177,7 +177,7 @@
       room_id = #{record.roomId,jdbcType=BIGINT},
       meta_id = #{record.metaId,jdbcType=INTEGER},
       meta_value = #{record.metaValue,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=TINYINT}
+      is_delete = #{record.isDelete,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -195,7 +195,7 @@
         meta_value = #{metaValue,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=TINYINT},
+        is_delete = #{isDelete,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -205,7 +205,7 @@
     set room_id = #{roomId,jdbcType=BIGINT},
       meta_id = #{metaId,jdbcType=INTEGER},
       meta_value = #{metaValue,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=TINYINT}
+      is_delete = #{isDelete,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

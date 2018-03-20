@@ -11,16 +11,15 @@
     <result column="structure" jdbcType="VARCHAR" property="structure" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="around_info" jdbcType="VARCHAR" property="aroundInfo" />
-    <result column="real_check" jdbcType="TINYINT" property="realCheck" />
+    <result column="real_check" jdbcType="BIT" property="realCheck" />
     <result column="bed_count" jdbcType="INTEGER" property="bedCount" />
     <result column="comment_number" jdbcType="INTEGER" property="commentNumber" />
     <result column="host_message" jdbcType="VARCHAR" property="hostMessage" />
     <result column="latitude" jdbcType="REAL" property="latitude" />
     <result column="longitude" jdbcType="REAL" property="longitude" />
     <result column="street" jdbcType="VARCHAR" property="street" />
-    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
-    <result column="is_onsale" jdbcType="TINYINT" property="isOnsale" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="is_onsale" jdbcType="BIT" property="isOnsale" />
     <result column="city_id" jdbcType="INTEGER" property="cityId" />
     <result column="province_id" jdbcType="INTEGER" property="provinceId" />
     <result column="district_id" jdbcType="BIGINT" property="districtId" />
@@ -33,6 +32,7 @@
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.graduationdesign.entity.RoomWithBLOBs">
     <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+    <result column="around_info" jdbcType="LONGVARCHAR" property="aroundInfo" />
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -95,12 +95,12 @@
   </sql>
   <sql id="Base_Column_List">
     id, provider_id, title, default_price, max_capacity, usable_area, structure, create_time, 
-    update_time, around_info, real_check, bed_count, comment_number, host_message, latitude, 
-    longitude, street, is_delete, is_onsale, city_id, province_id, district_id, block, 
-    area_id, move_up_cancel_days, earliest_check_in_time, lastest_check_in_time, lastest_check_out_time
+    update_time, real_check, bed_count, comment_number, host_message, latitude, longitude, 
+    street, is_delete, is_onsale, city_id, province_id, district_id, block, area_id, 
+    move_up_cancel_days, earliest_check_in_time, lastest_check_in_time, lastest_check_out_time
   </sql>
   <sql id="Blob_Column_List">
-    introduction, description
+    introduction, around_info, description
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="org.graduationdesign.entity.RoomExample" resultMap="ResultMapWithBLOBs">
     select
@@ -156,26 +156,26 @@
     </selectKey>
     insert into `room` (provider_id, title, default_price, 
       max_capacity, usable_area, structure, 
-      create_time, update_time, around_info, 
-      real_check, bed_count, comment_number, 
-      host_message, latitude, longitude, 
-      street, is_delete, is_onsale, 
-      city_id, province_id, district_id, 
-      block, area_id, move_up_cancel_days, 
-      earliest_check_in_time, lastest_check_in_time, 
-      lastest_check_out_time, introduction, 
-      description)
+      create_time, update_time, real_check, 
+      bed_count, comment_number, host_message, 
+      latitude, longitude, street, 
+      is_delete, is_onsale, city_id, 
+      province_id, district_id, block, 
+      area_id, move_up_cancel_days, earliest_check_in_time, 
+      lastest_check_in_time, lastest_check_out_time, 
+      introduction, around_info, description
+      )
     values (#{providerId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{defaultPrice,jdbcType=INTEGER}, 
       #{maxCapacity,jdbcType=INTEGER}, #{usableArea,jdbcType=INTEGER}, #{structure,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{aroundInfo,jdbcType=VARCHAR}, 
-      #{realCheck,jdbcType=TINYINT}, #{bedCount,jdbcType=INTEGER}, #{commentNumber,jdbcType=INTEGER}, 
-      #{hostMessage,jdbcType=VARCHAR}, #{latitude,jdbcType=REAL}, #{longitude,jdbcType=REAL}, 
-      #{street,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{isOnsale,jdbcType=TINYINT}, 
-      #{cityId,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER}, #{districtId,jdbcType=BIGINT}, 
-      #{block,jdbcType=VARCHAR}, #{areaId,jdbcType=BIGINT}, #{moveUpCancelDays,jdbcType=INTEGER}, 
-      #{earliestCheckInTime,jdbcType=VARCHAR}, #{lastestCheckInTime,jdbcType=VARCHAR}, 
-      #{lastestCheckOutTime,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}, 
-      #{description,jdbcType=LONGVARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{realCheck,jdbcType=BIT}, 
+      #{bedCount,jdbcType=INTEGER}, #{commentNumber,jdbcType=INTEGER}, #{hostMessage,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=REAL}, #{longitude,jdbcType=REAL}, #{street,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=BIT}, #{isOnsale,jdbcType=BIT}, #{cityId,jdbcType=INTEGER}, 
+      #{provinceId,jdbcType=INTEGER}, #{districtId,jdbcType=BIGINT}, #{block,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=BIGINT}, #{moveUpCancelDays,jdbcType=INTEGER}, #{earliestCheckInTime,jdbcType=VARCHAR}, 
+      #{lastestCheckInTime,jdbcType=VARCHAR}, #{lastestCheckOutTime,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=LONGVARCHAR}, #{aroundInfo,jdbcType=LONGVARCHAR}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.graduationdesign.entity.RoomWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -206,9 +206,6 @@
       </if>
       <if test="updateTime != null">
         update_time,
-      </if>
-      <if test="aroundInfo != null">
-        around_info,
       </if>
       <if test="realCheck != null">
         real_check,
@@ -267,6 +264,9 @@
       <if test="introduction != null">
         introduction,
       </if>
+      <if test="aroundInfo != null">
+        around_info,
+      </if>
       <if test="description != null">
         description,
       </if>
@@ -296,11 +296,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="aroundInfo != null">
-        #{aroundInfo,jdbcType=VARCHAR},
-      </if>
       <if test="realCheck != null">
-        #{realCheck,jdbcType=TINYINT},
+        #{realCheck,jdbcType=BIT},
       </if>
       <if test="bedCount != null">
         #{bedCount,jdbcType=INTEGER},
@@ -321,10 +318,10 @@
         #{street,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
-        #{isDelete,jdbcType=TINYINT},
+        #{isDelete,jdbcType=BIT},
       </if>
       <if test="isOnsale != null">
-        #{isOnsale,jdbcType=TINYINT},
+        #{isOnsale,jdbcType=BIT},
       </if>
       <if test="cityId != null">
         #{cityId,jdbcType=INTEGER},
@@ -355,6 +352,9 @@
       </if>
       <if test="introduction != null">
         #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="aroundInfo != null">
+        #{aroundInfo,jdbcType=LONGVARCHAR},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -397,11 +397,8 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.aroundInfo != null">
-        around_info = #{record.aroundInfo,jdbcType=VARCHAR},
-      </if>
       <if test="record.realCheck != null">
-        real_check = #{record.realCheck,jdbcType=TINYINT},
+        real_check = #{record.realCheck,jdbcType=BIT},
       </if>
       <if test="record.bedCount != null">
         bed_count = #{record.bedCount,jdbcType=INTEGER},
@@ -422,10 +419,10 @@
         street = #{record.street,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null">
-        is_delete = #{record.isDelete,jdbcType=TINYINT},
+        is_delete = #{record.isDelete,jdbcType=BIT},
       </if>
       <if test="record.isOnsale != null">
-        is_onsale = #{record.isOnsale,jdbcType=TINYINT},
+        is_onsale = #{record.isOnsale,jdbcType=BIT},
       </if>
       <if test="record.cityId != null">
         city_id = #{record.cityId,jdbcType=INTEGER},
@@ -457,6 +454,9 @@
       <if test="record.introduction != null">
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
       </if>
+      <if test="record.aroundInfo != null">
+        around_info = #{record.aroundInfo,jdbcType=LONGVARCHAR},
+      </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
@@ -476,16 +476,15 @@
       structure = #{record.structure,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      around_info = #{record.aroundInfo,jdbcType=VARCHAR},
-      real_check = #{record.realCheck,jdbcType=TINYINT},
+      real_check = #{record.realCheck,jdbcType=BIT},
       bed_count = #{record.bedCount,jdbcType=INTEGER},
       comment_number = #{record.commentNumber,jdbcType=INTEGER},
       host_message = #{record.hostMessage,jdbcType=VARCHAR},
       latitude = #{record.latitude,jdbcType=REAL},
       longitude = #{record.longitude,jdbcType=REAL},
       street = #{record.street,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=TINYINT},
-      is_onsale = #{record.isOnsale,jdbcType=TINYINT},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      is_onsale = #{record.isOnsale,jdbcType=BIT},
       city_id = #{record.cityId,jdbcType=INTEGER},
       province_id = #{record.provinceId,jdbcType=INTEGER},
       district_id = #{record.districtId,jdbcType=BIGINT},
@@ -496,6 +495,7 @@
       lastest_check_in_time = #{record.lastestCheckInTime,jdbcType=VARCHAR},
       lastest_check_out_time = #{record.lastestCheckOutTime,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      around_info = #{record.aroundInfo,jdbcType=LONGVARCHAR},
       description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -512,16 +512,15 @@
       structure = #{record.structure,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      around_info = #{record.aroundInfo,jdbcType=VARCHAR},
-      real_check = #{record.realCheck,jdbcType=TINYINT},
+      real_check = #{record.realCheck,jdbcType=BIT},
       bed_count = #{record.bedCount,jdbcType=INTEGER},
       comment_number = #{record.commentNumber,jdbcType=INTEGER},
       host_message = #{record.hostMessage,jdbcType=VARCHAR},
       latitude = #{record.latitude,jdbcType=REAL},
       longitude = #{record.longitude,jdbcType=REAL},
       street = #{record.street,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=TINYINT},
-      is_onsale = #{record.isOnsale,jdbcType=TINYINT},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      is_onsale = #{record.isOnsale,jdbcType=BIT},
       city_id = #{record.cityId,jdbcType=INTEGER},
       province_id = #{record.provinceId,jdbcType=INTEGER},
       district_id = #{record.districtId,jdbcType=BIGINT},
@@ -562,11 +561,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="aroundInfo != null">
-        around_info = #{aroundInfo,jdbcType=VARCHAR},
-      </if>
       <if test="realCheck != null">
-        real_check = #{realCheck,jdbcType=TINYINT},
+        real_check = #{realCheck,jdbcType=BIT},
       </if>
       <if test="bedCount != null">
         bed_count = #{bedCount,jdbcType=INTEGER},
@@ -587,10 +583,10 @@
         street = #{street,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=TINYINT},
+        is_delete = #{isDelete,jdbcType=BIT},
       </if>
       <if test="isOnsale != null">
-        is_onsale = #{isOnsale,jdbcType=TINYINT},
+        is_onsale = #{isOnsale,jdbcType=BIT},
       </if>
       <if test="cityId != null">
         city_id = #{cityId,jdbcType=INTEGER},
@@ -622,6 +618,9 @@
       <if test="introduction != null">
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
+      <if test="aroundInfo != null">
+        around_info = #{aroundInfo,jdbcType=LONGVARCHAR},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -638,16 +637,15 @@
       structure = #{structure,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      around_info = #{aroundInfo,jdbcType=VARCHAR},
-      real_check = #{realCheck,jdbcType=TINYINT},
+      real_check = #{realCheck,jdbcType=BIT},
       bed_count = #{bedCount,jdbcType=INTEGER},
       comment_number = #{commentNumber,jdbcType=INTEGER},
       host_message = #{hostMessage,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=REAL},
       longitude = #{longitude,jdbcType=REAL},
       street = #{street,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=TINYINT},
-      is_onsale = #{isOnsale,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=BIT},
+      is_onsale = #{isOnsale,jdbcType=BIT},
       city_id = #{cityId,jdbcType=INTEGER},
       province_id = #{provinceId,jdbcType=INTEGER},
       district_id = #{districtId,jdbcType=BIGINT},
@@ -658,6 +656,7 @@
       lastest_check_in_time = #{lastestCheckInTime,jdbcType=VARCHAR},
       lastest_check_out_time = #{lastestCheckOutTime,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=LONGVARCHAR},
+      around_info = #{aroundInfo,jdbcType=LONGVARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -671,16 +670,15 @@
       structure = #{structure,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      around_info = #{aroundInfo,jdbcType=VARCHAR},
-      real_check = #{realCheck,jdbcType=TINYINT},
+      real_check = #{realCheck,jdbcType=BIT},
       bed_count = #{bedCount,jdbcType=INTEGER},
       comment_number = #{commentNumber,jdbcType=INTEGER},
       host_message = #{hostMessage,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=REAL},
       longitude = #{longitude,jdbcType=REAL},
       street = #{street,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=TINYINT},
-      is_onsale = #{isOnsale,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=BIT},
+      is_onsale = #{isOnsale,jdbcType=BIT},
       city_id = #{cityId,jdbcType=INTEGER},
       province_id = #{provinceId,jdbcType=INTEGER},
       district_id = #{districtId,jdbcType=BIGINT},

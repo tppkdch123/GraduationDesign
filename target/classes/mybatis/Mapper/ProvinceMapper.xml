@@ -97,23 +97,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.graduationdesign.entity.Province">
-    insert into `province` (province_code, province_name)
-    values (#{provinceCode,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR})
+    <selectKey keyProperty="provinceCode" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `province` (province_name)
+    values (#{provinceName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.graduationdesign.entity.Province">
+    <selectKey keyProperty="provinceCode" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into `province`
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="provinceCode != null">
-        province_code,
-      </if>
       <if test="provinceName != null">
         province_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="provinceCode != null">
-        #{provinceCode,jdbcType=INTEGER},
-      </if>
       <if test="provinceName != null">
         #{provinceName,jdbcType=VARCHAR},
       </if>

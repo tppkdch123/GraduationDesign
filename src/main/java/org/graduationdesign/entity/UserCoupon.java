@@ -16,7 +16,7 @@ public class UserCoupon implements Serializable {
 
     private Date endTime;
 
-    private Byte isInvalid;
+    private Boolean isInvalid;
 
     private static final long serialVersionUID = 1L;
 
@@ -68,11 +68,11 @@ public class UserCoupon implements Serializable {
         this.endTime = endTime;
     }
 
-    public Byte getIsInvalid() {
+    public Boolean getIsInvalid() {
         return isInvalid;
     }
 
-    public void setIsInvalid(Byte isInvalid) {
+    public void setIsInvalid(Boolean isInvalid) {
         this.isInvalid = isInvalid;
     }
 }

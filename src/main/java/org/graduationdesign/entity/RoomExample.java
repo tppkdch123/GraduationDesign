@@ -665,76 +665,6 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andAroundInfoIsNull() {
-            addCriterion("around_info is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoIsNotNull() {
-            addCriterion("around_info is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoEqualTo(String value) {
-            addCriterion("around_info =", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoNotEqualTo(String value) {
-            addCriterion("around_info <>", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoGreaterThan(String value) {
-            addCriterion("around_info >", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoGreaterThanOrEqualTo(String value) {
-            addCriterion("around_info >=", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoLessThan(String value) {
-            addCriterion("around_info <", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoLessThanOrEqualTo(String value) {
-            addCriterion("around_info <=", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoLike(String value) {
-            addCriterion("around_info like", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoNotLike(String value) {
-            addCriterion("around_info not like", value, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoIn(List<String> values) {
-            addCriterion("around_info in", values, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoNotIn(List<String> values) {
-            addCriterion("around_info not in", values, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoBetween(String value1, String value2) {
-            addCriterion("around_info between", value1, value2, "aroundInfo");
-            return (Criteria) this;
-        }
-
-        public Criteria andAroundInfoNotBetween(String value1, String value2) {
-            addCriterion("around_info not between", value1, value2, "aroundInfo");
-            return (Criteria) this;
-        }
-
         public Criteria andRealCheckIsNull() {
             addCriterion("real_check is null");
             return (Criteria) this;
@@ -745,52 +675,52 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckEqualTo(Byte value) {
+        public Criteria andRealCheckEqualTo(Boolean value) {
             addCriterion("real_check =", value, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckNotEqualTo(Byte value) {
+        public Criteria andRealCheckNotEqualTo(Boolean value) {
             addCriterion("real_check <>", value, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckGreaterThan(Byte value) {
+        public Criteria andRealCheckGreaterThan(Boolean value) {
             addCriterion("real_check >", value, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckGreaterThanOrEqualTo(Byte value) {
+        public Criteria andRealCheckGreaterThanOrEqualTo(Boolean value) {
             addCriterion("real_check >=", value, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckLessThan(Byte value) {
+        public Criteria andRealCheckLessThan(Boolean value) {
             addCriterion("real_check <", value, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckLessThanOrEqualTo(Byte value) {
+        public Criteria andRealCheckLessThanOrEqualTo(Boolean value) {
             addCriterion("real_check <=", value, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckIn(List<Byte> values) {
+        public Criteria andRealCheckIn(List<Boolean> values) {
             addCriterion("real_check in", values, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckNotIn(List<Byte> values) {
+        public Criteria andRealCheckNotIn(List<Boolean> values) {
             addCriterion("real_check not in", values, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckBetween(Byte value1, Byte value2) {
+        public Criteria andRealCheckBetween(Boolean value1, Boolean value2) {
             addCriterion("real_check between", value1, value2, "realCheck");
             return (Criteria) this;
         }
 
-        public Criteria andRealCheckNotBetween(Byte value1, Byte value2) {
+        public Criteria andRealCheckNotBetween(Boolean value1, Boolean value2) {
             addCriterion("real_check not between", value1, value2, "realCheck");
             return (Criteria) this;
         }
@@ -1185,52 +1115,52 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteEqualTo(Byte value) {
+        public Criteria andIsDeleteEqualTo(Boolean value) {
             addCriterion("is_delete =", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotEqualTo(Byte value) {
+        public Criteria andIsDeleteNotEqualTo(Boolean value) {
             addCriterion("is_delete <>", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteGreaterThan(Byte value) {
+        public Criteria andIsDeleteGreaterThan(Boolean value) {
             addCriterion("is_delete >", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsDeleteGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_delete >=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteLessThan(Byte value) {
+        public Criteria andIsDeleteLessThan(Boolean value) {
             addCriterion("is_delete <", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteLessThanOrEqualTo(Byte value) {
+        public Criteria andIsDeleteLessThanOrEqualTo(Boolean value) {
             addCriterion("is_delete <=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteIn(List<Byte> values) {
+        public Criteria andIsDeleteIn(List<Boolean> values) {
             addCriterion("is_delete in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotIn(List<Byte> values) {
+        public Criteria andIsDeleteNotIn(List<Boolean> values) {
             addCriterion("is_delete not in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeleteBetween(Boolean value1, Boolean value2) {
             addCriterion("is_delete between", value1, value2, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeleteNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_delete not between", value1, value2, "isDelete");
             return (Criteria) this;
         }
@@ -1245,52 +1175,52 @@ public class RoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleEqualTo(Byte value) {
+        public Criteria andIsOnsaleEqualTo(Boolean value) {
             addCriterion("is_onsale =", value, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleNotEqualTo(Byte value) {
+        public Criteria andIsOnsaleNotEqualTo(Boolean value) {
             addCriterion("is_onsale <>", value, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleGreaterThan(Byte value) {
+        public Criteria andIsOnsaleGreaterThan(Boolean value) {
             addCriterion("is_onsale >", value, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsOnsaleGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_onsale >=", value, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleLessThan(Byte value) {
+        public Criteria andIsOnsaleLessThan(Boolean value) {
             addCriterion("is_onsale <", value, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleLessThanOrEqualTo(Byte value) {
+        public Criteria andIsOnsaleLessThanOrEqualTo(Boolean value) {
             addCriterion("is_onsale <=", value, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleIn(List<Byte> values) {
+        public Criteria andIsOnsaleIn(List<Boolean> values) {
             addCriterion("is_onsale in", values, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleNotIn(List<Byte> values) {
+        public Criteria andIsOnsaleNotIn(List<Boolean> values) {
             addCriterion("is_onsale not in", values, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleBetween(Byte value1, Byte value2) {
+        public Criteria andIsOnsaleBetween(Boolean value1, Boolean value2) {
             addCriterion("is_onsale between", value1, value2, "isOnsale");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnsaleNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsOnsaleNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_onsale not between", value1, value2, "isOnsale");
             return (Criteria) this;
         }

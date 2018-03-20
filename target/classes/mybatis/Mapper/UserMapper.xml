@@ -9,10 +9,10 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="sex" jdbcType="BIT" property="sex" />
     <result column="user_avatar_url" jdbcType="VARCHAR" property="userAvatarUrl" />
-    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
-    <result column="is_active" jdbcType="TINYINT" property="isActive" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="is_active" jdbcType="BIT" property="isActive" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -116,8 +116,8 @@
       is_active)
     values (#{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=TINYINT}, #{userAvatarUrl,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, 
-      #{isActive,jdbcType=TINYINT})
+      #{sex,jdbcType=BIT}, #{userAvatarUrl,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, 
+      #{isActive,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.graduationdesign.entity.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -176,16 +176,16 @@
         #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        #{sex,jdbcType=TINYINT},
+        #{sex,jdbcType=BIT},
       </if>
       <if test="userAvatarUrl != null">
         #{userAvatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
-        #{isDelete,jdbcType=TINYINT},
+        #{isDelete,jdbcType=BIT},
       </if>
       <if test="isActive != null">
-        #{isActive,jdbcType=TINYINT},
+        #{isActive,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -220,16 +220,16 @@
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
       <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=TINYINT},
+        sex = #{record.sex,jdbcType=BIT},
       </if>
       <if test="record.userAvatarUrl != null">
         user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null">
-        is_delete = #{record.isDelete,jdbcType=TINYINT},
+        is_delete = #{record.isDelete,jdbcType=BIT},
       </if>
       <if test="record.isActive != null">
-        is_active = #{record.isActive,jdbcType=TINYINT},
+        is_active = #{record.isActive,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -245,10 +245,10 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       name = #{record.name,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=TINYINT},
+      sex = #{record.sex,jdbcType=BIT},
       user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=TINYINT},
-      is_active = #{record.isActive,jdbcType=TINYINT}
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      is_active = #{record.isActive,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -275,16 +275,16 @@
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        sex = #{sex,jdbcType=TINYINT},
+        sex = #{sex,jdbcType=BIT},
       </if>
       <if test="userAvatarUrl != null">
         user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=TINYINT},
+        is_delete = #{isDelete,jdbcType=BIT},
       </if>
       <if test="isActive != null">
-        is_active = #{isActive,jdbcType=TINYINT},
+        is_active = #{isActive,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -297,10 +297,10 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       name = #{name,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=TINYINT},
+      sex = #{sex,jdbcType=BIT},
       user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=TINYINT},
-      is_active = #{isActive,jdbcType=TINYINT}
+      is_delete = #{isDelete,jdbcType=BIT},
+      is_active = #{isActive,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

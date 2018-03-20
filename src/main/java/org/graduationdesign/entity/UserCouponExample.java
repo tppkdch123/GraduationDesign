@@ -475,52 +475,52 @@ public class UserCouponExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidEqualTo(Byte value) {
+        public Criteria andIsInvalidEqualTo(Boolean value) {
             addCriterion("is_invalid =", value, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidNotEqualTo(Byte value) {
+        public Criteria andIsInvalidNotEqualTo(Boolean value) {
             addCriterion("is_invalid <>", value, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidGreaterThan(Byte value) {
+        public Criteria andIsInvalidGreaterThan(Boolean value) {
             addCriterion("is_invalid >", value, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsInvalidGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_invalid >=", value, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidLessThan(Byte value) {
+        public Criteria andIsInvalidLessThan(Boolean value) {
             addCriterion("is_invalid <", value, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidLessThanOrEqualTo(Byte value) {
+        public Criteria andIsInvalidLessThanOrEqualTo(Boolean value) {
             addCriterion("is_invalid <=", value, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidIn(List<Byte> values) {
+        public Criteria andIsInvalidIn(List<Boolean> values) {
             addCriterion("is_invalid in", values, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidNotIn(List<Byte> values) {
+        public Criteria andIsInvalidNotIn(List<Boolean> values) {
             addCriterion("is_invalid not in", values, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidBetween(Byte value1, Byte value2) {
+        public Criteria andIsInvalidBetween(Boolean value1, Boolean value2) {
             addCriterion("is_invalid between", value1, value2, "isInvalid");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvalidNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsInvalidNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_invalid not between", value1, value2, "isInvalid");
             return (Criteria) this;
         }

@@ -18,13 +18,13 @@ public class User implements Serializable {
 
     private String mobile;
 
-    private Byte sex;
+    private Boolean sex;
 
     private String userAvatarUrl;
 
-    private Byte isDelete;
+    private Boolean isDelete;
 
-    private Byte isActive;
+    private Boolean isActive;
 
     private static final long serialVersionUID = 1L;
 
@@ -84,11 +84,11 @@ public class User implements Serializable {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
-    public Byte getSex() {
+    public Boolean getSex() {
         return sex;
     }
 
-    public void setSex(Byte sex) {
+    public void setSex(Boolean sex) {
         this.sex = sex;
     }
 
@@ -100,19 +100,19 @@ public class User implements Serializable {
         this.userAvatarUrl = userAvatarUrl == null ? null : userAvatarUrl.trim();
     }
 
-    public Byte getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 
-    public Byte getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Byte isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 }

@@ -22,9 +22,7 @@ public class Room implements Serializable {
 
     private Date updateTime;
 
-    private String aroundInfo;
-
-    private Byte realCheck;
+    private Boolean realCheck;
 
     private Integer bedCount;
 
@@ -38,9 +36,9 @@ public class Room implements Serializable {
 
     private String street;
 
-    private Byte isDelete;
+    private Boolean isDelete;
 
-    private Byte isOnsale;
+    private Boolean isOnsale;
 
     private Integer cityId;
 
@@ -134,19 +132,11 @@ public class Room implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getAroundInfo() {
-        return aroundInfo;
-    }
-
-    public void setAroundInfo(String aroundInfo) {
-        this.aroundInfo = aroundInfo == null ? null : aroundInfo.trim();
-    }
-
-    public Byte getRealCheck() {
+    public Boolean getRealCheck() {
         return realCheck;
     }
 
-    public void setRealCheck(Byte realCheck) {
+    public void setRealCheck(Boolean realCheck) {
         this.realCheck = realCheck;
     }
 
@@ -198,19 +188,19 @@ public class Room implements Serializable {
         this.street = street == null ? null : street.trim();
     }
 
-    public Byte getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 
-    public Byte getIsOnsale() {
+    public Boolean getIsOnsale() {
         return isOnsale;
     }
 
-    public void setIsOnsale(Byte isOnsale) {
+    public void setIsOnsale(Boolean isOnsale) {
         this.isOnsale = isOnsale;
     }
 

@@ -11,9 +11,9 @@ public class Comment implements Serializable {
 
     private String content;
 
-    private Byte isAnonymous;
+    private Boolean isAnonymous;
 
-    private Byte isDelete;
+    private Boolean isDelete;
 
     private Integer chatScore;
 
@@ -57,19 +57,19 @@ public class Comment implements Serializable {
         this.content = content == null ? null : content.trim();
     }
 
-    public Byte getIsAnonymous() {
+    public Boolean getIsAnonymous() {
         return isAnonymous;
     }
 
-    public void setIsAnonymous(Byte isAnonymous) {
+    public void setIsAnonymous(Boolean isAnonymous) {
         this.isAnonymous = isAnonymous;
     }
 
-    public Byte getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 

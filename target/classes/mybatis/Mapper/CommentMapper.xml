@@ -6,8 +6,8 @@
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="descript_score" jdbcType="INTEGER" property="descriptScore" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="is_anonymous" jdbcType="TINYINT" property="isAnonymous" />
-    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="is_anonymous" jdbcType="BIT" property="isAnonymous" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="chat_score" jdbcType="INTEGER" property="chatScore" />
     <result column="hyginene_score" jdbcType="INTEGER" property="hygineneScore" />
     <result column="location_score" jdbcType="INTEGER" property="locationScore" />
@@ -114,7 +114,7 @@
       hyginene_score, location_score, cost_score
       )
     values (#{orderId,jdbcType=BIGINT}, #{descriptScore,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{isAnonymous,jdbcType=TINYINT}, #{isDelete,jdbcType=TINYINT}, #{chatScore,jdbcType=INTEGER}, 
+      #{isAnonymous,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, #{chatScore,jdbcType=INTEGER}, 
       #{hygineneScore,jdbcType=INTEGER}, #{locationScore,jdbcType=INTEGER}, #{costScore,jdbcType=INTEGER}
       )
   </insert>
@@ -163,10 +163,10 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="isAnonymous != null">
-        #{isAnonymous,jdbcType=TINYINT},
+        #{isAnonymous,jdbcType=BIT},
       </if>
       <if test="isDelete != null">
-        #{isDelete,jdbcType=TINYINT},
+        #{isDelete,jdbcType=BIT},
       </if>
       <if test="chatScore != null">
         #{chatScore,jdbcType=INTEGER},
@@ -204,10 +204,10 @@
         content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.isAnonymous != null">
-        is_anonymous = #{record.isAnonymous,jdbcType=TINYINT},
+        is_anonymous = #{record.isAnonymous,jdbcType=BIT},
       </if>
       <if test="record.isDelete != null">
-        is_delete = #{record.isDelete,jdbcType=TINYINT},
+        is_delete = #{record.isDelete,jdbcType=BIT},
       </if>
       <if test="record.chatScore != null">
         chat_score = #{record.chatScore,jdbcType=INTEGER},
@@ -232,8 +232,8 @@
       order_id = #{record.orderId,jdbcType=BIGINT},
       descript_score = #{record.descriptScore,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR},
-      is_anonymous = #{record.isAnonymous,jdbcType=TINYINT},
-      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      is_anonymous = #{record.isAnonymous,jdbcType=BIT},
+      is_delete = #{record.isDelete,jdbcType=BIT},
       chat_score = #{record.chatScore,jdbcType=INTEGER},
       hyginene_score = #{record.hygineneScore,jdbcType=INTEGER},
       location_score = #{record.locationScore,jdbcType=INTEGER},
@@ -255,10 +255,10 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="isAnonymous != null">
-        is_anonymous = #{isAnonymous,jdbcType=TINYINT},
+        is_anonymous = #{isAnonymous,jdbcType=BIT},
       </if>
       <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=TINYINT},
+        is_delete = #{isDelete,jdbcType=BIT},
       </if>
       <if test="chatScore != null">
         chat_score = #{chatScore,jdbcType=INTEGER},
@@ -280,8 +280,8 @@
     set order_id = #{orderId,jdbcType=BIGINT},
       descript_score = #{descriptScore,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      is_anonymous = #{isAnonymous,jdbcType=TINYINT},
-      is_delete = #{isDelete,jdbcType=TINYINT},
+      is_anonymous = #{isAnonymous,jdbcType=BIT},
+      is_delete = #{isDelete,jdbcType=BIT},
       chat_score = #{chatScore,jdbcType=INTEGER},
       hyginene_score = #{hygineneScore,jdbcType=INTEGER},
       location_score = #{locationScore,jdbcType=INTEGER},

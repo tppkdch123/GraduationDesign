@@ -12,7 +12,7 @@ public class Provider implements Serializable {
 
     private Date joinTime;
 
-    private Byte isDelete;
+    private Boolean isDelete;
 
     private static final long serialVersionUID = 1L;
 
@@ -48,11 +48,11 @@ public class Provider implements Serializable {
         this.joinTime = joinTime;
     }
 
-    public Byte getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 }

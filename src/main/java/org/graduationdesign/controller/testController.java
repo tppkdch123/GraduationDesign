@@ -3,7 +3,11 @@ package org.graduationdesign.controller;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.graduationdesign.entity.City;
 import org.graduationdesign.entity.CityExample;
+import org.graduationdesign.entity.Room;
+import org.graduationdesign.entity.RoomExample;
+import org.graduationdesign.entity.RoomWithBLOBs;
 import org.graduationdesign.mappers.CityMapper;
+import org.graduationdesign.mappers.RoomMapper;
 import org.graduationdesign.util.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,9 @@ public class testController {
 
     @Autowired
     CityMapper cityMapper;
+
+    @Autowired
+    RoomMapper roomMapper;
 
     @ResponseBody
     @RequestMapping("/hello-world")
@@ -52,5 +59,13 @@ public class testController {
         criteria.andProvinceIdEqualTo(provinceId);
         List<City> cities=cityMapper.selectByExample(cityExample);
         return new UnifiedResponse(0,"",cities);
+    }
+    @RequestMapping(value="/room/{roomId}")
+    public UnifiedResponse getRoomById(@PathVariable Long roomId){
+        RoomExample roomExample=new RoomExample();
+        RoomExample.Criteria criteria=roomExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andIdEqualTo(roomId);
+       List<RoomWithBLOBs> roomWithBLOBs = roomMapper.selectByExampleWithBLOBs(roomExample);
+       return new UnifiedResponse(roomWithBLOBs.get(0));
     }
 }

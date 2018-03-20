@@ -11,7 +11,7 @@ public class MetaRoom implements Serializable {
 
     private String metaValue;
 
-    private Byte isDelete;
+    private Boolean isDelete;
 
     private static final long serialVersionUID = 1L;
 
@@ -47,11 +47,11 @@ public class MetaRoom implements Serializable {
         this.metaValue = metaValue == null ? null : metaValue.trim();
     }
 
-    public Byte getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 }
