@@ -10,7 +10,6 @@ import org.graduationdesign.mappers.RoomMapper;
 import org.graduationdesign.util.EmailUtil;
 import org.graduationdesign.util.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.JedisPool;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Properties;
+import java.util.UUID;
 
 
 @RestController
@@ -86,5 +88,17 @@ public class testController {
     @RequestMapping(value="/email")
     public void getProperties(){
         emailUtil.sendMessageBy163Email("hgftderwsy@qq.com","测试标题","黄世哲天下第一");
+    }
+
+    @RequestMapping(value="/cookie")
+    public UnifiedResponse getCookies(HttpServletRequest request){
+        return new UnifiedResponse(request.getCookies());
+    }
+
+    @RequestMapping(value="/eat")
+    public void setCookies(HttpServletResponse response){
+        String uuid=UUID.randomUUID().toString();
+        System.out.println(uuid);
+        response.addCookie(new Cookie("huangshizhetianxiadiyi",uuid));
     }
 }

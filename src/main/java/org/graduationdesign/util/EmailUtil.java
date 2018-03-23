@@ -9,6 +9,7 @@ import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -39,25 +40,21 @@ public class EmailUtil {
     private Authenticator authenticator163;
 
 
-    public void sendMessageByQQEmail(String mailname, String subject, String content) {
+    public void sendMessageByQQEmail(String mailname, String subject, String content) throws Exception{
        sendEmail(qqEmail,mailname,subject,content,qqProperties,qqAuthenticator);
 
     }
 
-    public void sendMessageBy163Email(String mailname,String subject,String content){
+    public void sendMessageBy163Email(String mailname,String subject,String content) throws Exception{
         sendEmail(email163,mailname,subject,content,properties163,authenticator163);
     }
 
-    public void sendEmail(String sender,String mailname,String subject,String content,Properties properties,Authenticator authenticator){
-        try {
+    public void sendEmail(String sender,String mailname,String subject,String content,Properties properties,Authenticator authenticator) throws Exception{
             Message message = new MimeMessage(Session.getInstance(properties,authenticator));
             message.setFrom(new InternetAddress(sender));
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mailname));
             message.setSubject(subject);
             message.setContent(content, "text/html;charset=utf-8");
             Transport.send(message);
-        } catch (javax.mail.MessagingException e) {
-            e.printStackTrace();
-        }
     }
 }
