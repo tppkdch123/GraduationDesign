@@ -85,10 +85,7 @@ public class testController {
         return jedisPool.getResource().get("yellow");
     }
 
-    @RequestMapping(value="/email")
-    public void getProperties(){
-        emailUtil.sendMessageBy163Email("hgftderwsy@qq.com","测试标题","黄世哲天下第一");
-    }
+
 
     @RequestMapping(value="/cookie")
     public UnifiedResponse getCookies(HttpServletRequest request){
