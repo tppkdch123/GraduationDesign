@@ -18,6 +18,8 @@ public enum ResultCodeEnum {
     USER_NOT_EXIT(10,"用户不存在"),
     PARAMETERS_ERROR(11,"参数错误"),
     TOKEN_INVAILD(12,"登录信息过期"),
+    PASSWORD_ERROR(13,"密码不正确"),
+
 
     ;
     private Integer code;

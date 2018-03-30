@@ -6,6 +6,7 @@ import org.graduationdesign.entity.UserExample;
 import org.graduationdesign.enums.CommenEnum;
 import org.graduationdesign.enums.EmailTemplateEnum;
 import org.graduationdesign.enums.ResultCodeEnum;
+import org.graduationdesign.enums.TimeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.mappers.UserMapper;
 import org.graduationdesign.service.UserService;
@@ -97,23 +98,24 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Throwable.class)
     public void login(String email, String verificationCode, HttpServletResponse response) throws HuangShiZheException {
         if (userIfExits(email)) {
-            String code=jedisPool.getResource().get(LPREFIX + email);
-            if (StringUtils.isNotEmpty(code)&&code.equals(verificationCode)) {
-                String token= UUID.randomUUID().toString();
-                response.addCookie(new Cookie(CommenEnum.huangshizhetianxiadiyi.toString(),token));
-                String sign=jedisPool.getResource().get(RPREFIX+email);
-                if(sign!=null){
+            String code = jedisPool.getResource().get(LPREFIX + email);
+            if (StringUtils.isNotEmpty(code) && code.equals(verificationCode)) {
+                String token = UUID.randomUUID().toString();
+                Cookie cookie = new Cookie(CommenEnum.huangshizhetianxiadiyi.toString(), token);
+                cookie.setPath("/");
+                cookie.setMaxAge(TimeEnum.TOKEN_TIEMOUT.getValue());
+                response.addCookie(cookie);
+                String sign = jedisPool.getResource().get(RPREFIX + email);
+                if (sign != null) {
                     jedisPool.getResource().del(sign);
                 }
-                jedisPool.getResource().setex(RPREFIX+email,300,token);
-                jedisPool.getResource().setex(token,300,email);
-               return;
-            }
-            else{
+                jedisPool.getResource().setex(RPREFIX + email, TimeEnum.TOKEN_TIEMOUT.getValue(), token);
+                jedisPool.getResource().setex(token, TimeEnum.TOKEN_TIEMOUT.getValue(), email);
+                return;
+            } else {
                 throw new HuangShiZheException(ResultCodeEnum.CODE_ERROR);
             }
-        }
-        else{
+        } else {
             throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
         }
     }
@@ -121,36 +123,38 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void sendLoginVerification(String email) throws HuangShiZheException {
-        if(userIfExits(email)){
-           String verificationCode = CommonUtil.generateRandomVerificationCode();
-           if(jedisPool.getResource().exists(LPREFIX+email)){
-               throw new HuangShiZheException(ResultCodeEnum.ALREADY_SEND);
-           }
-            try {
-                jedisPool.getResource().setex(LPREFIX+email,120,verificationCode);
-                sendVerification(email,verificationCode,EmailTemplateEnum.LOGIN_VERIFICATION);
-            } catch (Exception e) {
-                throw new HuangShiZheException(ResultCodeEnum.ERROR,e);
+        if (userIfExits(email)) {
+            String verificationCode = CommonUtil.generateRandomVerificationCode();
+            if (jedisPool.getResource().exists(LPREFIX + email)) {
+                throw new HuangShiZheException(ResultCodeEnum.ALREADY_SEND);
             }
-        }
-        else {
+            try {
+                jedisPool.getResource().setex(LPREFIX + email, 120, verificationCode);
+                sendVerification(email, verificationCode, EmailTemplateEnum.LOGIN_VERIFICATION);
+            } catch (Exception e) {
+                throw new HuangShiZheException(ResultCodeEnum.ERROR, e);
+            }
+        } else {
             throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
         }
     }
 
     @Override
     public User getCurrentUser(HttpServletRequest request) throws HuangShiZheException {
-        String token=findToken(request);
-        if(StringUtils.isEmpty(token)){
+        String token = findToken(request);
+        if (StringUtils.isEmpty(token)) {
             throw new HuangShiZheException(ResultCodeEnum.TOKEN_INVAILD);
         }
-        String email=findEmail(token);
-        UserExample userExample=new UserExample();
-        UserExample.Criteria criteria=userExample.createCriteria();
+        String email = findEmail(token);
+        if (!userIfExits(email)) {
+            throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
+        }
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andEmailEqualTo(email).andIsDeleteEqualTo(false);
-        List<User> userList=userMapper.selectByExample(userExample);
+        List<User> userList = userMapper.selectByExample(userExample);
 
-        if(CollectionUtils.isEmpty(userList)){
+        if (CollectionUtils.isEmpty(userList)) {
             throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
         }
 
@@ -158,28 +162,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void login(HttpServletResponse response, String email, String password) throws HuangShiZheException {
-
+        if (!userIfExits(email)) {
+            throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
+        }
+        boolean b = userMapper.judgePassword(password, email);
+        if (b) {
+            String token = UUID.randomUUID().toString();
+            Cookie cookie = new Cookie(CommenEnum.huangshizhetianxiadiyi.toString(), token);
+            cookie.setMaxAge(TimeEnum.TOKEN_TIEMOUT.getValue());
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            String sign = jedisPool.getResource().get(RPREFIX + email);
+            if (sign != null) {
+                jedisPool.getResource().del(sign);
+            }
+            jedisPool.getResource().setex(RPREFIX + email, TimeEnum.TOKEN_TIEMOUT.getValue(), token);
+            jedisPool.getResource().setex(token, TimeEnum.TOKEN_TIEMOUT.getValue(), email);
+            return;
+        } else {
+            throw new HuangShiZheException(ResultCodeEnum.PASSWORD_ERROR);
+        }
     }
 
     private void sendVerification(String email, String verificationCode, EmailTemplateEnum emailTemplateEnum) throws Exception {
         emailUtil.sendMessageBy163Email(email, emailTemplateEnum.getSubject(), CommonUtil.wireVerificationCode(emailTemplateEnum.getContent(), verificationCode));
     }
 
-    private String findToken(HttpServletRequest request){
-        for(Cookie cookie:request.getCookies()){
-            if(cookie.getName().equals(CommenEnum.huangshizhetianxiadiyi.toString())){
+    private String findToken(HttpServletRequest request) {
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals(CommenEnum.huangshizhetianxiadiyi.toString())) {
                 return cookie.getValue();
             }
         }
         return null;
     }
 
-    private String findEmail(String token) throws HuangShiZheException{
-       String email = jedisPool.getResource().get(token);
-       if(StringUtils.isEmpty(email)){
-           throw new HuangShiZheException(ResultCodeEnum.TOKEN_INVAILD);
-       }
-       return email;
+    private String findEmail(String token) throws HuangShiZheException {
+        String email = jedisPool.getResource().get(token);
+        if (StringUtils.isEmpty(email)) {
+            throw new HuangShiZheException(ResultCodeEnum.TOKEN_INVAILD);
+        }
+        return email;
     }
+
 }

@@ -114,7 +114,7 @@
       update_time, name, mobile, 
       sex, user_avatar_url, is_delete, 
       is_active)
-    values (#{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{email,jdbcType=VARCHAR}, md5(#{password,jdbcType=VARCHAR}), #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{sex,jdbcType=BIT}, #{userAvatarUrl,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, 
       #{isActive,jdbcType=BIT})
@@ -142,7 +142,7 @@
       </if>
       <if test="mobile != null">
         mobile,
-      </if>
+    </if>
       <if test="sex != null">
         sex,
       </if>
@@ -161,7 +161,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+        md5(#{password,jdbcType=VARCHAR}),
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -205,7 +205,7 @@
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+        password = md5(#{record.password,jdbcType=VARCHAR}),
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -240,7 +240,7 @@
     update `user`
     set id = #{record.id,jdbcType=BIGINT},
       email = #{record.email,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
+      password = md5(#{record.password,jdbcType=VARCHAR}),
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       name = #{record.name,jdbcType=VARCHAR},
@@ -260,7 +260,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+        password = md5(#{password,jdbcType=VARCHAR}),
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -292,7 +292,7 @@
   <update id="updateByPrimaryKey" parameterType="org.graduationdesign.entity.User">
     update `user`
     set email = #{email,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+      password = md5(#{password,jdbcType=VARCHAR}),
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       name = #{name,jdbcType=VARCHAR},
@@ -303,4 +303,7 @@
       is_active = #{isActive,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="judgePassword" resultType="boolean">
+    select password=md5(#{password}) from user where email=#{email}
+  </select>
 </mapper>

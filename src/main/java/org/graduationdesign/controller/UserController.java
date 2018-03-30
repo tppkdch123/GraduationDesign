@@ -19,7 +19,7 @@ public class UserController extends BaseController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/sendloginemail", method = RequestMethod.GET)
+    @RequestMapping(value = "/sendLoginEmail", method = RequestMethod.GET)
     public UnifiedResponse sendLoginEmail(@RequestParam("email") String email) throws HuangShiZheException{
          userService.sendLoginVerification(email);
          return new UnifiedResponse(ResultCodeEnum.SUCCESS);
@@ -34,5 +34,11 @@ public class UserController extends BaseController {
     @RequestMapping(value="/hello-user",method = RequestMethod.GET)
     public UnifiedResponse hello(HttpServletRequest request) throws HuangShiZheException{
         return new UnifiedResponse(userService.getCurrentUser(request));
+    }
+
+    @RequestMapping(value="/loginByPassword",method = RequestMethod.GET)
+    public UnifiedResponse login(HttpServletResponse response,@RequestParam("email") String email, @RequestParam("password") String password)throws HuangShiZheException{
+        userService.login(response,email,password);
+        return new UnifiedResponse(ResultCodeEnum.SUCCESS);
     }
 }
