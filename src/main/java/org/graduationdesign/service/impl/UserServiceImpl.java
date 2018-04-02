@@ -1,6 +1,8 @@
 package org.graduationdesign.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.graduationdesign.entity.Provider;
+import org.graduationdesign.entity.ProviderExample;
 import org.graduationdesign.entity.User;
 import org.graduationdesign.entity.UserExample;
 import org.graduationdesign.enums.CommenEnum;
@@ -8,10 +10,14 @@ import org.graduationdesign.enums.EmailTemplateEnum;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.enums.TimeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
+import org.graduationdesign.mappers.ProviderMapper;
 import org.graduationdesign.mappers.UserMapper;
 import org.graduationdesign.service.UserService;
 import org.graduationdesign.util.CommonUtil;
 import org.graduationdesign.util.EmailUtil;
+import org.graduationdesign.vo.UserVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +43,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     JedisPool jedisPool;
 
+    @Autowired
+    ProviderMapper providerMapper;
+
+    private static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    private static String LOG_PREFIX = "[用户相关] ";
+
     private static final String PREFIX = "register-verificationCode-";
 
     private static final String LPREFIX = "login-verificationCode-";
@@ -46,6 +59,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void registerVerification(String email) throws HuangShiZheException {
+
+        EmailUtil.ifEmail(email);
 
         if (!userIfExits(email)) {
             String verificationCode = CommonUtil.generateRandomVerificationCode();
@@ -57,6 +72,7 @@ public class UserServiceImpl implements UserService {
             try {
                 sendVerification(email, verificationCode, EmailTemplateEnum.REGISTER_VERIFICATION);
             } catch (Exception e) {
+                LOGGER.error("{},发送注册验证码出现异常", LOG_PREFIX);
                 throw new HuangShiZheException(ResultCodeEnum.ERROR, e);
             }
         } else {
@@ -67,6 +83,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void simpleRegister(String email, String verificationCode) throws HuangShiZheException {
+
+        EmailUtil.ifEmail(email);
         String code = jedisPool.getResource().get(PREFIX + email);
         if (StringUtils.isEmpty(code)) {
             throw new HuangShiZheException(ResultCodeEnum.TIME_OUT);
@@ -97,6 +115,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void login(String email, String verificationCode, HttpServletResponse response) throws HuangShiZheException {
+        EmailUtil.ifEmail(email);
         if (userIfExits(email)) {
             String code = jedisPool.getResource().get(LPREFIX + email);
             if (StringUtils.isNotEmpty(code) && code.equals(verificationCode)) {
@@ -123,6 +142,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void sendLoginVerification(String email) throws HuangShiZheException {
+        EmailUtil.ifEmail(email);
         if (userIfExits(email)) {
             String verificationCode = CommonUtil.generateRandomVerificationCode();
             if (jedisPool.getResource().exists(LPREFIX + email)) {
@@ -132,6 +152,7 @@ public class UserServiceImpl implements UserService {
                 jedisPool.getResource().setex(LPREFIX + email, 120, verificationCode);
                 sendVerification(email, verificationCode, EmailTemplateEnum.LOGIN_VERIFICATION);
             } catch (Exception e) {
+                LOGGER.warn("{}发送登录验证码出现异常", LOG_PREFIX);
                 throw new HuangShiZheException(ResultCodeEnum.ERROR, e);
             }
         } else {
@@ -164,6 +185,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void login(HttpServletResponse response, String email, String password) throws HuangShiZheException {
+        EmailUtil.ifEmail(email);
         if (!userIfExits(email)) {
             throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
         }
@@ -183,6 +205,101 @@ public class UserServiceImpl implements UserService {
             return;
         } else {
             throw new HuangShiZheException(ResultCodeEnum.PASSWORD_ERROR);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void updateInformation(User user) throws HuangShiZheException {
+        user.setUpdateTime(new Date());
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andIdEqualTo(user.getId());
+        userMapper.updateByExample(user, userExample);
+    }
+
+    @Override
+    public UserVO getUserInfoById(Long id) throws HuangShiZheException {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andIdEqualTo(id).andIsDeleteEqualTo(false);
+        List<User> userList = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(userList)) {
+            throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
+        }
+        return convertUser2VO(userList.get(0));
+    }
+
+    @Override
+    public Provider getProviderByUserId(Long userId) throws HuangShiZheException {
+        ProviderExample providerExample = new ProviderExample();
+        ProviderExample.Criteria criteria = providerExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andUseridEqualTo(userId);
+        List<Provider> providerList = providerMapper.selectByExample(providerExample);
+
+        if (CollectionUtils.isEmpty(providerList)) {
+            throw new HuangShiZheException(ResultCodeEnum.NOT_PROVIDER);
+        }
+        return providerList.get(0);
+    }
+
+    @Override
+    public Provider getProviderByEmail(String email) throws HuangShiZheException {
+        EmailUtil.ifEmail(email);
+        User user = getUserByEmail(email);
+
+        ProviderExample providerExample = new ProviderExample();
+        ProviderExample.Criteria criteria = providerExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andIdEqualTo(user.getId());
+        List<Provider> providerList = providerMapper.selectByExample(providerExample);
+
+        if (CollectionUtils.isEmpty(providerList)) {
+            throw new HuangShiZheException(ResultCodeEnum.NOT_PROVIDER);
+        }
+        return providerList.get(0);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void becomeProvider(Long userId) throws HuangShiZheException {
+        if(userIfProvider(userId)){
+            throw new HuangShiZheException(ResultCodeEnum.ALREADY_PROVIDER);
+        }
+        Provider provider = new Provider();
+        provider.setIsDelete(false);
+        provider.setJoinTime(new Date());
+        provider.setUserid(userId);
+        provider.setCreditScore(0);
+        providerMapper.insert(provider);
+    }
+
+    @Override
+    public User getUserByEmail(String email) throws HuangShiZheException {
+        EmailUtil.ifEmail(email);
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andEmailEqualTo(email);
+        List<User> userList = userMapper.selectByExample(userExample);
+
+        if (CollectionUtils.isEmpty(userList)) {
+            throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
+        }
+
+        return userList.get(0);
+    }
+
+    @Override
+    public Boolean userIfProvider(Long id) throws HuangShiZheException {
+        ProviderExample providerExample = new ProviderExample();
+        ProviderExample.Criteria criteria = providerExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andIdEqualTo(id);
+        List<Provider> providerList = providerMapper.selectByExample(providerExample);
+
+        if(CollectionUtils.isEmpty(providerList)){
+            return false;
+        }
+        else{
+            return true;
         }
     }
 
@@ -207,4 +324,18 @@ public class UserServiceImpl implements UserService {
         return email;
     }
 
+    private UserVO convertUser2VO(User user) {
+        UserVO userVO = new UserVO();
+        userVO.setCreateTime(user.getCreateTime());
+        userVO.setEmail(user.getEmail());
+        userVO.setId(user.getId());
+        userVO.setIsActive(user.getIsActive());
+        userVO.setIsDelete(user.getIsDelete());
+        userVO.setMobile(user.getMobile());
+        userVO.setSex(user.getSex());
+        userVO.setUserAvatarUrl(StringUtils.split(user.getUserAvatarUrl(), "\\@")[0]);
+        userVO.setName(user.getName());
+        userVO.setUpdateTime(user.getUpdateTime());
+        return userVO;
+    }
 }

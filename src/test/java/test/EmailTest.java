@@ -13,8 +13,11 @@ import javax.mail.internet.MimeMessage;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class EmailTest {
+
 
     @Test
     public void test() {
@@ -53,13 +56,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testEE(){
-        Properties properties=new Properties();
-        try {
-            properties.load(new FileReader("classpath:QQemail.properties"));
-            System.out.println(properties);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void testRegex(){
+        System.out.println("hgftderwsy@qq-.cn".matches("^[\\w-.]+@[a-z0-9A-Z.-]+.(com|cn)"));
     }
 }

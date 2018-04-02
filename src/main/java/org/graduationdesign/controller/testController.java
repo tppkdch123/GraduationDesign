@@ -9,6 +9,8 @@ import org.graduationdesign.mappers.CityMapper;
 import org.graduationdesign.mappers.RoomMapper;
 import org.graduationdesign.util.EmailUtil;
 import org.graduationdesign.util.UnifiedResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,8 @@ public class testController {
 
     @Autowired
     EmailUtil emailUtil;
+
+    private static Logger LOGGER= LoggerFactory.getLogger(testController.class);
 
     @ResponseBody
     @RequestMapping("/hello-world")
@@ -99,4 +103,8 @@ public class testController {
         response.addCookie(new Cookie("huangshizhetianxiadiyi",uuid));
     }
 
+    @RequestMapping(value="/testLog")
+    public void testLog(){
+        LOGGER.info("记录日志测试");
+    }
 }

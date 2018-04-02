@@ -19,6 +19,11 @@ public enum ResultCodeEnum {
     PARAMETERS_ERROR(11,"参数错误"),
     TOKEN_INVAILD(12,"登录信息过期"),
     PASSWORD_ERROR(13,"密码不正确"),
+    EMAIL_REGEX(14,"邮箱格式不正确"),
+    EMAIL_MUST_NOT_NULL(15,"邮箱不能为空"),
+    NOT_PROVIDER(16,"还不是房东"),
+    ALREADY_PROVIDER(17,"已经是提供者"),
+    ROOM_NOT_EXIT(18,"房源不存在"),
 
 
     ;

@@ -1,5 +1,8 @@
 package org.graduationdesign.util;
 
+import org.apache.commons.lang3.StringUtils;
+import org.graduationdesign.enums.ResultCodeEnum;
+import org.graduationdesign.exception.HuangShiZheException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,8 @@ public class EmailUtil {
 
     @Value("${163.mail.smtp.username}")
     private String email163;
+
+    private static final String EMAIL_REGEX="^[\\w-.]+@[a-z0-9A-Z.-]+.(com|cn)";
 
     @Autowired
     @Qualifier("qqEmailProperties")
@@ -56,5 +61,14 @@ public class EmailUtil {
             message.setSubject(subject);
             message.setContent(content, "text/html;charset=utf-8");
             Transport.send(message);
+    }
+
+    public static void ifEmail(String email) throws HuangShiZheException{
+        if(StringUtils.isEmpty(email)){
+            throw new HuangShiZheException(ResultCodeEnum.EMAIL_MUST_NOT_NULL);
+        }
+        if(!email.matches(EMAIL_REGEX)){
+            throw new HuangShiZheException(ResultCodeEnum.EMAIL_REGEX);
+        }
     }
 }

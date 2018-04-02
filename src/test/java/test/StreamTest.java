@@ -65,14 +65,7 @@ public class StreamTest {
 
     @Test
     public void test() {
-        System.out.println(Stream.of(1, 2, 3, 4, 5).reduce((acc, element) -> acc + element).get());
-        BinaryOperator<Integer> binaryOperator = new BinaryOperator<Integer>() {
-            @Override
-            public Integer apply(Integer integer, Integer integer2) {
-                return integer + integer2;
-            }
-        };
-        int count = binaryOperator.apply(binaryOperator.apply(binaryOperator.apply(binaryOperator.apply(1, 2), 3), 4), 5);
+       new User("s","cx","aa");
     }
 
     @Test
@@ -122,12 +115,16 @@ public class StreamTest {
 }
 @Data
 class User{
-    String a;
+    {
+        System.out.println("aaa");
+    }
+    String a="xxx";
     String b;
     public User(String a, String b, String content) {
-        this.a = a;
+        System.out.println(this.a);
         this.b = b;
         this.content = content;
+        System.out.println("bbb");
     }
 
     String content;
