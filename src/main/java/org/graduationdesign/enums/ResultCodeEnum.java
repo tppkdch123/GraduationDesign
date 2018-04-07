@@ -24,6 +24,7 @@ public enum ResultCodeEnum {
     NOT_PROVIDER(16,"还不是房东"),
     ALREADY_PROVIDER(17,"已经是提供者"),
     ROOM_NOT_EXIT(18,"房源不存在"),
+    META_NOT_EXIT(19,"meta不存在"),
 
 
     ;

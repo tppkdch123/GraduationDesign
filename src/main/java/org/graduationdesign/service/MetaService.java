@@ -6,7 +6,7 @@ import org.graduationdesign.exception.HuangShiZheException;
 import java.util.List;
 
 public interface MetaService {
-    Meta getMetaById() throws HuangShiZheException;
+    Meta getMetaById(Integer id) throws HuangShiZheException;
 
     List<Meta> getMetaByIds() throws HuangShiZheException;
 }
