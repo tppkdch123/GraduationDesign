@@ -1,5 +1,9 @@
 package test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
@@ -7,8 +11,10 @@ import org.graduationdesign.enums.CommenEnum;
 import org.graduationdesign.util.CommonUtil;
 import org.hibernate.validator.constraints.br.TituloEleitoral;
 import org.junit.Test;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.awt.*;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -43,9 +49,7 @@ public class myTest {
 
     @Test
     public void test() throws Exception {
-        Timestamp timestamp = Timestamp.valueOf("2018-02-27 17:21:09" +
-                "");
-        System.out.println(timestamp.getTime());
+        System.out.println((double)380.00);
     }
 
     @Test
@@ -87,9 +91,28 @@ public class myTest {
 
     @Test
     public void testRandom() {
-        BigDecimal bigDecimal=new BigDecimal(33.23);
-        Object c=bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
-        System.out.println((BigDecimal)c);
+        BigDecimal bigDecimal=new BigDecimal("1.0");
+        ObjectMapper objectMapper=new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String json=null;
+        try {
+            String s=objectMapper.writeValueAsString(bigDecimal);
+            System.out.println(s);
+            json="["+s+"]";
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, Object.class);
+
+        try { List L=   objectMapper.readValue(json,javaType);
+            System.out.println(L.get(0) instanceof Double);
+            System.out.println(((Double)L.get(0)));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -136,7 +159,7 @@ public class ggo implements Runnable{
         return (Integer)cc;
     }
     public List<Integer> getIn(Object[] c) throws Exception{
-      return  Arrays.stream(c).map(cc->convert(cc)).collect(Collectors.toList());
+        return null;
     }
 
     @Test

@@ -7,6 +7,7 @@ import org.graduationdesign.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
 public interface UserService {
 
@@ -16,16 +17,16 @@ public interface UserService {
      * @param email
      * @throws HuangShiZheException
      */
-    void registerVerification(String email) throws HuangShiZheException;
+    void registerVerification(@NotNull(message = "邮箱不能为空") String email) throws HuangShiZheException;
 
     /**
-     *  简单注册
+     * 简单注册
      *
      * @param email
      * @param verificationCode
      * @throws HuangShiZheException
      */
-    void simpleRegister(String email, String verificationCode) throws HuangShiZheException;
+    void simpleRegister(@NotNull(message = "邮箱不能为空") String email, @NotNull(message = "验证码不能为空") String verificationCode) throws HuangShiZheException;
 
     /**
      * 用户是否存在
@@ -34,7 +35,7 @@ public interface UserService {
      * @return
      * @throws HuangShiZheException
      */
-    Boolean userIfExits(String email) throws HuangShiZheException;
+    Boolean userIfExits(@NotNull(message = "邮箱不能为空") String email) throws HuangShiZheException;
 
     /**
      * 通过验证码登录
@@ -44,7 +45,7 @@ public interface UserService {
      * @param response
      * @throws HuangShiZheException
      */
-    void login(String email, String verificationCode, HttpServletResponse response) throws HuangShiZheException;
+    void login(@NotNull(message = "邮箱不能为空") String email, @NotNull(message = "验证码不能为空") String verificationCode, HttpServletResponse response) throws HuangShiZheException;
 
     /**
      * 发送登录验证码
@@ -52,7 +53,7 @@ public interface UserService {
      * @param email
      * @throws HuangShiZheException
      */
-    void sendLoginVerification(String email) throws HuangShiZheException;
+    void sendLoginVerification(@NotNull(message = "邮箱不能为空") String email) throws HuangShiZheException;
 
     /**
      * 获得当前用户信息
@@ -70,7 +71,7 @@ public interface UserService {
      * @param password
      * @throws HuangShiZheException
      */
-    void login(HttpServletResponse response, String email, String password) throws HuangShiZheException;
+    void login(HttpServletResponse response, @NotNull(message = "邮箱不能为空") String email, @NotNull(message = "密码不能为空") String password) throws HuangShiZheException;
 
     /**
      * 修改自己的信息
@@ -78,7 +79,7 @@ public interface UserService {
      * @param user
      * @throws HuangShiZheException
      */
-    void updateInformation(User user) throws HuangShiZheException;
+    void updateInformation(@NotNull(message = "参数不能为空") User user) throws HuangShiZheException;
 
     /**
      * 根据用户id获取用户信息
@@ -86,16 +87,16 @@ public interface UserService {
      * @return
      * @throws HuangShiZheException
      */
-    UserVO getUserInfoById(Long id) throws HuangShiZheException;
+    UserVO getUserInfoById(@NotNull(message = "用户ID不能为空") Long id) throws HuangShiZheException;
 
-    Provider getProviderByUserId(Long userId) throws HuangShiZheException;
+    Provider getProviderByUserId(@NotNull(message = "用户ID不能为空") Long userId) throws HuangShiZheException;
 
-    Provider getProviderByEmail(String email) throws HuangShiZheException;
+    Provider getProviderByEmail(@NotNull(message = "邮箱不能为空") String email) throws HuangShiZheException;
 
-    void becomeProvider(Long userId) throws HuangShiZheException;
+    void becomeProvider(@NotNull(message = "用户ID不能为空") Long userId) throws HuangShiZheException;
 
-    User getUserByEmail(String email) throws HuangShiZheException;
+    User getUserByEmail(@NotNull(message = "邮箱不能为空") String email) throws HuangShiZheException;
 
-    Boolean userIfProvider(Long id) throws HuangShiZheException;
+    Boolean userIfProvider(@NotNull(message = "用户id不能为空") Long id) throws HuangShiZheException;
 
 }

@@ -2,6 +2,7 @@ package org.graduationdesign.service.impl;
 
 import org.graduationdesign.entity.Meta;
 import org.graduationdesign.entity.MetaExample;
+import org.graduationdesign.entity.MetaRoom;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.mappers.MetaMapper;
@@ -20,12 +21,12 @@ public class MetaServiceImpl implements MetaService {
 
     @Override
     public Meta getMetaById(Integer id) throws HuangShiZheException {
-        MetaExample metaExample=new MetaExample();
-        MetaExample.Criteria criteria=metaExample.createCriteria();
+        MetaExample metaExample = new MetaExample();
+        MetaExample.Criteria criteria = metaExample.createCriteria();
         criteria.andIdEqualTo(id);
-        List<Meta> metas=metaMapper.selectByExample(metaExample);
+        List<Meta> metas = metaMapper.selectByExample(metaExample);
 
-        if(CollectionUtils.isEmpty(metas)){
+        if (CollectionUtils.isEmpty(metas)) {
             throw new HuangShiZheException(ResultCodeEnum.META_NOT_EXIT);
         }
 
@@ -33,8 +34,11 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
-    public List<Meta> getMetaByIds() throws HuangShiZheException {
-
-        return null;
+    public List<Meta> getMetaByIds(List<Integer> ids) throws HuangShiZheException {
+        MetaExample metaExample = new MetaExample();
+        MetaExample.Criteria criteria = metaExample.createCriteria();
+        criteria.andIdIn(ids);
+        List<Meta> metas=metaMapper.selectByExample(metaExample);
+        return metas;
     }
 }
