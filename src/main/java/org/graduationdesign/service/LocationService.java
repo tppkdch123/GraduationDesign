@@ -1,5 +1,6 @@
 package org.graduationdesign.service;
 
+import com.github.pagehelper.PageInfo;
 import org.graduationdesign.entity.City;
 import org.graduationdesign.entity.Province;
 import org.graduationdesign.exception.HuangShiZheException;

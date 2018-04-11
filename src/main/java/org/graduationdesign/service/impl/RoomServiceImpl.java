@@ -1,10 +1,13 @@
 package org.graduationdesign.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.graduationdesign.entity.Meta;
 import org.graduationdesign.entity.MetaRoom;
 import org.graduationdesign.entity.MetaRoomExample;
 import org.graduationdesign.entity.Provider;
+import org.graduationdesign.entity.Room;
 import org.graduationdesign.entity.RoomExample;
 import org.graduationdesign.entity.RoomExtend;
 import org.graduationdesign.entity.RoomExtendExample;
@@ -19,16 +22,21 @@ import org.graduationdesign.service.MetaService;
 import org.graduationdesign.service.RoomService;
 import org.graduationdesign.service.UserService;
 import org.graduationdesign.vo.MetaVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class RoomServiceImpl implements RoomService {
+
+    private static final Logger LOGGER= LoggerFactory.getLogger(RoomServiceImpl.class);
 
     @Autowired
     RoomExtendMapper roomExtendMapper;
@@ -50,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
         roomWithBLOBs.setUpdateTime(new Date());
         roomWithBLOBs.setCreateTime(new Date());
         User user = userService.getCurrentUser(httpServletRequest);
-        Provider provider=userService.getProviderByUserId(user.getId());
+        Provider provider = userService.getProviderByUserId(user.getId());
         roomWithBLOBs.setIsDelete(false);
         roomWithBLOBs.setProviderId(provider.getId());
         roomMapper.insert(roomWithBLOBs);
@@ -71,7 +79,6 @@ public class RoomServiceImpl implements RoomService {
         RoomExample.Criteria criteria = roomExample.createCriteria();
         criteria.andIdEqualTo(id).andIsDeleteEqualTo(false);
         List<RoomWithBLOBs> roomWithBLOBsList = roomMapper.selectByExampleWithBLOBs(roomExample);
-
         if (CollectionUtils.isEmpty(roomWithBLOBsList)) {
             throw new HuangShiZheException(ResultCodeEnum.ROOM_NOT_EXIT);
         }
@@ -95,6 +102,16 @@ public class RoomServiceImpl implements RoomService {
         criteria.andRoomIdEqualTo(id).andTypeEqualTo(0);
         List<RoomExtend> roomExtendMapperList = roomExtendMapper.selectByExample(roomExample);
         return roomExtendMapperList;
+    }
+
+    @Override
+    public PageInfo<Room> getRoomByCity(@NotNull(message = "cityId不能为空") Integer cityId, @NotNull Integer pageNum, @NotNull Integer size) throws HuangShiZheException {
+        RoomExample roomExample = new RoomExample();
+        RoomExample.Criteria criteria = roomExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andCityIdEqualTo(cityId);
+        PageHelper.startPage(pageNum, size);
+        List<Room> roomList =roomMapper.selectByExample(roomExample);
+        return new PageInfo<>(roomList);
     }
 
     private List<MetaVO> generateMetaVO(List<MetaRoom> metaRoomList) throws HuangShiZheException {

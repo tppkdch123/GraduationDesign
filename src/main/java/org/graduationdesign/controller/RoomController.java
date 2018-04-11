@@ -1,5 +1,7 @@
 package org.graduationdesign.controller;
 
+import com.github.pagehelper.PageInfo;
+import org.graduationdesign.entity.Room;
 import org.graduationdesign.entity.RoomExtend;
 import org.graduationdesign.entity.RoomWithBLOBs;
 import org.graduationdesign.enums.ResultCodeEnum;
@@ -57,6 +59,11 @@ public class RoomController extends BaseController{
     public UnifiedResponse getMetaByRoomId(@RequestParam Long roomId) throws HuangShiZheException{
         List<MetaVO> metaVOList=roomService.getMetaByRoomId(roomId);
         return new UnifiedResponse(metaVOList);
+    }
 
+    @RequestMapping(value="/city-room",method = RequestMethod.GET)
+    public UnifiedResponse getRoomByCity(@RequestParam Integer cityId,@RequestParam Integer pageNum,@RequestParam Integer size) throws HuangShiZheException{
+        PageInfo<Room> rooms=roomService.getRoomByCity(cityId,pageNum,size);
+        return new UnifiedResponse(rooms);
     }
 }

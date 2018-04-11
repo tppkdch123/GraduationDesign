@@ -2,10 +2,11 @@ package org.graduationdesign.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class UserVO {
+public class UserVO implements Serializable{
     private Long id;
 
     private String email;

@@ -41,10 +41,10 @@
                              targetPackage="org.graduationdesign.mappers" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
-        <table tableName="room" domainObjectName="Room" delimitIdentifiers="true">
+       <!-- <table tableName="room" domainObjectName="Room" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
-       <!-- <table tableName="user" domainObjectName="User" delimitIdentifiers="true">
+       <table tableName="user" domainObjectName="User" delimitIdentifiers="true">
            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
         <table tableName="provider" domainObjectName="Provider" delimitIdentifiers="true">
@@ -90,14 +90,14 @@
         <table tableName="comment" domainObjectName="Comment" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
-        <table tableName="orders" domainObjectName="Order" delimitIdentifiers="true">
-            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
         <table tableName="room_extend" domainObjectName="RoomExtend" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>-->
         <!--<table tableName="collection" domainObjectName="Collection" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>-->
+        <table tableName="orders" domainObjectName="Orders" delimitIdentifiers="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>
     </context>
 </generatorConfiguration>

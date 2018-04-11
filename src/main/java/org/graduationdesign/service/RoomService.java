@@ -1,5 +1,7 @@
 package org.graduationdesign.service;
 
+import com.github.pagehelper.PageInfo;
+import org.graduationdesign.entity.Room;
 import org.graduationdesign.entity.RoomExtend;
 import org.graduationdesign.entity.RoomWithBLOBs;
 import org.graduationdesign.exception.HuangShiZheException;
@@ -19,4 +21,6 @@ public interface RoomService {
     List<MetaVO> getMetaByRoomId(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException;
 
     List<RoomExtend> getPictureUrlByRoomId(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException;
+
+    PageInfo<Room> getRoomByCity(@NotNull(message = "cityId不能为空") Integer cityId, @NotNull Integer pageNum, @NotNull Integer size) throws HuangShiZheException;
 }

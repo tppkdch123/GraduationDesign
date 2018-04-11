@@ -215,7 +215,7 @@ public class UserServiceImpl implements UserService {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andIsDeleteEqualTo(false).andIdEqualTo(user.getId());
-        userMapper.updateByExample(user, userExample);
+        userMapper.updateByExampleSelective(user, userExample);
     }
 
     @Override
