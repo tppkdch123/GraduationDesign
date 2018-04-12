@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             try {
                 sendVerification(email, verificationCode, EmailTemplateEnum.REGISTER_VERIFICATION);
             } catch (Exception e) {
-                LOGGER.error("{},发送注册验证码出现异常", LOG_PREFIX);
+                LOGGER.error("{}发送注册验证码出现异常", LOG_PREFIX);
                 throw new HuangShiZheException(ResultCodeEnum.ERROR, e);
             }
         } else {

@@ -13,6 +13,7 @@ import org.graduationdesign.service.CouponService;
 import org.graduationdesign.service.UserService;
 import org.graduationdesign.vo.CouponVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CouponServiceImpl implements CouponService {
 
     private static
@@ -59,12 +61,12 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId,Long startTime,Long endTime) throws HuangShiZheException {
-        UserCouponExample userCouponExample=new UserCouponExample();
-        if(!ifConponExit(couponId)){
+    public void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId, Long startTime, Long endTime) throws HuangShiZheException {
+        UserCouponExample userCouponExample = new UserCouponExample();
+        if (!ifConponExit(couponId)) {
             throw new HuangShiZheException(ResultCodeEnum.COUPON_NOT_EXIST);
         }
-        UserCoupon userCoupon=new UserCoupon();
+        UserCoupon userCoupon = new UserCoupon();
         userCoupon.setCouponId(couponId);
         userCoupon.setCreateTime(new Date());
         userCoupon.setStartTime(new Date(startTime));
@@ -74,15 +76,16 @@ public class CouponServiceImpl implements CouponService {
         userCouponMapper.insertSelective(userCoupon);
     }
 
-    private Boolean ifConponExit(Long couponId) throws HuangShiZheException{
-        CouponExample couponExample=new CouponExample();
+    private Boolean ifConponExit(Long couponId) throws HuangShiZheException {
+        CouponExample couponExample = new CouponExample();
         couponExample.createCriteria().andIdEqualTo(couponId);
-        List<Coupon> coupons=couponMapper.selectByExample(couponExample);
-        if(CollectionUtils.isEmpty(coupons)){
+        List<Coupon> coupons = couponMapper.selectByExample(couponExample);
+        if (CollectionUtils.isEmpty(coupons)) {
             return false;
         }
         return true;
     }
+
     private CouponVO convertUserCoupon2VO(UserCoupon userCoupon) {
         CouponVO couponVO = new CouponVO();
         if (userCoupon == null) {

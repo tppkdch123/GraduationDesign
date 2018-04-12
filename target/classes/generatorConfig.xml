@@ -71,10 +71,6 @@
         <table tableName="meta_room" domainObjectName="MetaRoom" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
-        <table tableName="data_price" domainObjectName="DataPrice" delimitIdentifiers="true">
-            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
-
         <table tableName="coupon" domainObjectName="Coupon" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
@@ -95,9 +91,11 @@
         </table>-->
         <!--<table tableName="collection" domainObjectName="Collection" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>-->
+        </table>
         <table tableName="orders" domainObjectName="Orders" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>-->
+        <table tableName="date_price" domainObjectName="DatePrice" delimitIdentifiers="true">
         </table>
     </context>
 </generatorConfiguration>

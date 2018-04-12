@@ -11,6 +11,7 @@ import org.graduationdesign.mappers.OrdersMapper;
 import org.graduationdesign.service.OrderService;
 import org.graduationdesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired

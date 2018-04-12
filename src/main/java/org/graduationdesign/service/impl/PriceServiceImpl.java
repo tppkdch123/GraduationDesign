@@ -11,6 +11,7 @@ import org.graduationdesign.service.PriceService;
 import org.graduationdesign.service.RoomService;
 import org.graduationdesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class PriceServiceImpl implements PriceService {
 
     @Autowired
