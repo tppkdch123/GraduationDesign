@@ -5,6 +5,7 @@ import org.graduationdesign.entity.CouponExample;
 import org.graduationdesign.entity.User;
 import org.graduationdesign.entity.UserCoupon;
 import org.graduationdesign.entity.UserCouponExample;
+import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.mappers.CouponMapper;
 import org.graduationdesign.mappers.UserCouponMapper;
@@ -61,7 +62,7 @@ public class CouponServiceImpl implements CouponService {
     public void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId,Long startTime,Long endTime) throws HuangShiZheException {
         UserCouponExample userCouponExample=new UserCouponExample();
         if(!ifConponExit(couponId)){
-
+            throw new HuangShiZheException(ResultCodeEnum.COUPON_NOT_EXIST);
         }
         UserCoupon userCoupon=new UserCoupon();
         userCoupon.setCouponId(couponId);
