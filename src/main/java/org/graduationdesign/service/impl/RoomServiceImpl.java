@@ -114,6 +114,28 @@ public class RoomServiceImpl implements RoomService {
         return new PageInfo<>(roomList);
     }
 
+    @Override
+    public Boolean ifRoomExist(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException {
+        RoomExample roomExample=new RoomExample();
+        roomExample.createCriteria().andIsDeleteEqualTo(false).andIdEqualTo(id);
+        List<Room> roomList=roomMapper.selectByExample(roomExample);
+        if(CollectionUtils.isEmpty(roomList)){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Room getRoom(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException {
+        RoomExample roomExample=new RoomExample();
+        roomExample.createCriteria().andIsDeleteEqualTo(false).andIdEqualTo(id);
+        List<Room> roomList=roomMapper.selectByExample(roomExample);
+        if(CollectionUtils.isEmpty(roomList)){
+            throw new HuangShiZheException(ResultCodeEnum.ROOM_NOT_EXIT);
+        }
+        return roomList.get(0);
+    }
+
     private List<MetaVO> generateMetaVO(List<MetaRoom> metaRoomList) throws HuangShiZheException {
         List<MetaVO> metaVOList = Lists.newArrayList();
         for (MetaRoom metaRoom : metaRoomList) {

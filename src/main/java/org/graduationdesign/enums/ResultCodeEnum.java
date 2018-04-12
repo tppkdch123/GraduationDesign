@@ -26,7 +26,7 @@ public enum ResultCodeEnum {
     ROOM_NOT_EXIT(18,"房源不存在"),
     META_NOT_EXIT(19,"meta不存在"),
     ORDER_NOT_EXIT(20,"不存在符合条件的订单"),
-
+    PRICE_ERROR(21,"价格不正确"),
     ;
     private Integer code;
     private String content;

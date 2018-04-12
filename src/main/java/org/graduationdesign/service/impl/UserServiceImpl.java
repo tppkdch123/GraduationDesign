@@ -27,6 +27,7 @@ import redis.clients.jedis.JedisPool;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -301,6 +302,18 @@ public class UserServiceImpl implements UserService {
         else{
             return true;
         }
+    }
+
+    @Override
+    public Boolean ifUserExitById(@NotNull(message = "用户ID不能为空") Long id) throws HuangShiZheException {
+        UserExample userExample=new UserExample();
+        UserExample.Criteria criteria=userExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andIdEqualTo(id);
+        List<User> users=userMapper.selectByExample(userExample);
+        if(users.isEmpty()){
+            return false;
+        }
+        return true;
     }
 
     private void sendVerification(String email, String verificationCode, EmailTemplateEnum emailTemplateEnum) throws Exception {

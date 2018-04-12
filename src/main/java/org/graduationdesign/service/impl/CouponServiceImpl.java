@@ -58,10 +58,30 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId) throws HuangShiZheException {
+    public void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId,Long startTime,Long endTime) throws HuangShiZheException {
+        UserCouponExample userCouponExample=new UserCouponExample();
+        if(!ifConponExit(couponId)){
 
+        }
+        UserCoupon userCoupon=new UserCoupon();
+        userCoupon.setCouponId(couponId);
+        userCoupon.setCreateTime(new Date());
+        userCoupon.setStartTime(new Date(startTime));
+        userCoupon.setEndTime(new Date(endTime));
+        userCoupon.setIsInvalid(false);
+        userCoupon.setUserId(userId);
+        userCouponMapper.insertSelective(userCoupon);
     }
 
+    private Boolean ifConponExit(Long couponId) throws HuangShiZheException{
+        CouponExample couponExample=new CouponExample();
+        couponExample.createCriteria().andIdEqualTo(couponId);
+        List<Coupon> coupons=couponMapper.selectByExample(couponExample);
+        if(CollectionUtils.isEmpty(coupons)){
+            return false;
+        }
+        return true;
+    }
     private CouponVO convertUserCoupon2VO(UserCoupon userCoupon) {
         CouponVO couponVO = new CouponVO();
         if (userCoupon == null) {

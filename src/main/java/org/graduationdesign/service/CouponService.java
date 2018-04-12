@@ -13,7 +13,7 @@ public interface CouponService {
 
     List<CouponVO> getSelfCoupon(HttpServletRequest request) throws HuangShiZheException;
 
-    void getCoupon(@NotNull(message = "couponId不能为空") Long couponId,HttpServletRequest request) throws HuangShiZheException;
+    void getCoupon(@NotNull(message = "couponId不能为空") Long couponId, HttpServletRequest request) throws HuangShiZheException;
 
-    void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId ,Long userId) throws HuangShiZheException;
+    void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId, Long startTime, Long endTime) throws HuangShiZheException;
 }

@@ -99,4 +99,6 @@ public interface UserService {
 
     Boolean userIfProvider(@NotNull(message = "用户id不能为空") Long id) throws HuangShiZheException;
 
+    Boolean ifUserExitById(@NotNull(message="用户ID不能为空") Long id) throws HuangShiZheException;
+
 }
