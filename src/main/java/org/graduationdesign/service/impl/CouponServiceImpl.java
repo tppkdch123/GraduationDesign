@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 @Service
 public class CouponServiceImpl implements CouponService {
 
-    private static
-
     @Autowired
     UserService userService;
 

@@ -50,4 +50,21 @@ public class UserController extends BaseController {
         return new UnifiedResponse(ResultCodeEnum.SUCCESS);
     }
 
+    @RequestMapping(value = "/sendRegisterEmail", method = RequestMethod.GET)
+    public UnifiedResponse sendRegisterEmail(@RequestParam("email") String email) throws HuangShiZheException {
+        userService.registerVerification(email);
+        return new UnifiedResponse(ResultCodeEnum.SUCCESS);
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public UnifiedResponse register(@RequestParam("email") String email, String code) throws HuangShiZheException {
+        userService.simpleRegister(email, code);
+        return new UnifiedResponse(ResultCodeEnum.SUCCESS);
+    }
+
+    @RequestMapping(value = "/auto-login", method = RequestMethod.GET)
+    public UnifiedResponse autoLogin(HttpServletRequest request) throws HuangShiZheException{
+        User user=userService.getCurrentUser(request);
+        return new UnifiedResponse(user);
+    }
 }

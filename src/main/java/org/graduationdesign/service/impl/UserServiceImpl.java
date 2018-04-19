@@ -97,8 +97,10 @@ public class UserServiceImpl implements UserService {
             user.setEmail(email);
             user.setIsActive(true);
             user.setIsDelete(false);
+            user.setSex(true);
+            user.setPassword(email+"password");
             user.setUpdateTime(new Date());
-            userMapper.insert(user);
+            userMapper.insertSelective(user);
         } else {
             throw new HuangShiZheException(ResultCodeEnum.CODE_ERROR);
         }
@@ -184,7 +186,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void login(HttpServletResponse response, String email, String password) throws HuangShiZheException {
         EmailUtil.ifEmail(email);
         if (!userIfExits(email)) {
@@ -321,6 +322,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private String findToken(HttpServletRequest request) {
+        if(request.getCookies()==null){
+            return null;
+        }
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(CommenEnum.huangshizhetianxiadiyi.toString())) {
                 return cookie.getValue();
