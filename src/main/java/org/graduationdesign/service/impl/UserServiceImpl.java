@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
             user.setIsActive(true);
             user.setIsDelete(false);
             user.setSex(true);
-            user.setPassword(email+"password");
+            user.setPassword(email + "password");
             user.setUpdateTime(new Date());
             userMapper.insertSelective(user);
         } else {
@@ -186,6 +186,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void login(HttpServletResponse response, String email, String password) throws HuangShiZheException {
         EmailUtil.ifEmail(email);
         if (!userIfExits(email)) {
@@ -264,7 +265,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void becomeProvider(Long userId) throws HuangShiZheException {
-        if(userIfProvider(userId)){
+        if (userIfProvider(userId)) {
             throw new HuangShiZheException(ResultCodeEnum.ALREADY_PROVIDER);
         }
         Provider provider = new Provider();
@@ -297,21 +298,20 @@ public class UserServiceImpl implements UserService {
         criteria.andIsDeleteEqualTo(false).andIdEqualTo(id);
         List<Provider> providerList = providerMapper.selectByExample(providerExample);
 
-        if(CollectionUtils.isEmpty(providerList)){
+        if (CollectionUtils.isEmpty(providerList)) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
 
     @Override
     public Boolean ifUserExitById(@NotNull(message = "用户ID不能为空") Long id) throws HuangShiZheException {
-        UserExample userExample=new UserExample();
-        UserExample.Criteria criteria=userExample.createCriteria();
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andIsDeleteEqualTo(false).andIdEqualTo(id);
-        List<User> users=userMapper.selectByExample(userExample);
-        if(users.isEmpty()){
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users.isEmpty()) {
             return false;
         }
         return true;
@@ -322,7 +322,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private String findToken(HttpServletRequest request) {
-        if(request.getCookies()==null){
+        if (request.getCookies() == null) {
             return null;
         }
         for (Cookie cookie : request.getCookies()) {
