@@ -2,6 +2,7 @@ package org.graduationdesign.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import lombok.Data;
+import org.aopalliance.intercept.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -95,13 +96,13 @@ public class SpringBootConfig {
         try {
             sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/Mapper/*Mapper.xml"));
         } catch (IOException e) {
-            System.out.println("xxxx");
+            return null;
         }
         sqlSessionFactoryBean.setTypeAliasesPackage("org.graduationdesign.entity");
+
         try {
             return sqlSessionFactoryBean.getObject();
         } catch (Exception e) {
-            System.out.println("yyy");
             return null;
         }
     }

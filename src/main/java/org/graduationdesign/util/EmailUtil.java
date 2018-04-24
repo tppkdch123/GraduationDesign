@@ -3,6 +3,8 @@ package org.graduationdesign.util;
 import org.apache.commons.lang3.StringUtils;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +12,14 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 @Component
 public class EmailUtil {
@@ -27,6 +31,10 @@ public class EmailUtil {
     private String email163;
 
     private static final String EMAIL_REGEX="^[\\w-.]+@[a-z0-9A-Z.-]+.(com|cn)";
+
+    private static Logger logger= LoggerFactory.getLogger(EmailUtil.class);
+
+    private static String LOG_PREFIX="[邮件工具] ";
 
     @Autowired
     @Qualifier("qqEmailProperties")
@@ -60,7 +68,11 @@ public class EmailUtil {
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mailname));
             message.setSubject(subject);
             message.setContent(content, "text/html;charset=utf-8");
-            Transport.send(message);
+            try {
+                Transport.send(message);
+            } catch (MessagingException e) {
+                logger.error("{} 邮件发送异常",LOG_PREFIX,e);
+            }
     }
 
     public static void ifEmail(String email) throws HuangShiZheException{

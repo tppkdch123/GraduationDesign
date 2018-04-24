@@ -3,7 +3,7 @@ package org.graduationdesign.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Order implements Serializable {
+public class Orders implements Serializable {
     private Long id;
 
     private Long roomId;
@@ -26,7 +26,7 @@ public class Order implements Serializable {
 
     private Integer orderStatus;
 
-    private Byte isDelete;
+    private Boolean isDelete;
 
     private static final long serialVersionUID = 1L;
 
@@ -118,11 +118,11 @@ public class Order implements Serializable {
         this.orderStatus = orderStatus;
     }
 
-    public Byte getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 }

@@ -24,7 +24,12 @@ public enum ResultCodeEnum {
     NOT_PROVIDER(16,"还不是房东"),
     ALREADY_PROVIDER(17,"已经是提供者"),
     ROOM_NOT_EXIT(18,"房源不存在"),
-
+    META_NOT_EXIT(19,"meta不存在"),
+    ORDER_NOT_EXIT(20,"不存在符合条件的订单"),
+    PRICE_ERROR(21,"价格不正确"),
+    COUPON_NOT_EXIST(22,"优惠券不存在"),
+    CITY_NOT_EXIST(23,"城市不存在"),
+    PROVINCE_NOT_EXIT(24,"省不存在"),
 
     ;
     private Integer code;

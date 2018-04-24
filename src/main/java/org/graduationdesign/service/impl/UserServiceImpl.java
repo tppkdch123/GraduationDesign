@@ -27,6 +27,7 @@ import redis.clients.jedis.JedisPool;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
             try {
                 sendVerification(email, verificationCode, EmailTemplateEnum.REGISTER_VERIFICATION);
             } catch (Exception e) {
-                LOGGER.error("{},发送注册验证码出现异常", LOG_PREFIX);
+                LOGGER.error("{}发送注册验证码出现异常", LOG_PREFIX);
                 throw new HuangShiZheException(ResultCodeEnum.ERROR, e);
             }
         } else {
@@ -96,8 +97,10 @@ public class UserServiceImpl implements UserService {
             user.setEmail(email);
             user.setIsActive(true);
             user.setIsDelete(false);
+            user.setSex(true);
+            user.setPassword(email + "password");
             user.setUpdateTime(new Date());
-            userMapper.insert(user);
+            userMapper.insertSelective(user);
         } else {
             throw new HuangShiZheException(ResultCodeEnum.CODE_ERROR);
         }
@@ -215,7 +218,7 @@ public class UserServiceImpl implements UserService {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andIsDeleteEqualTo(false).andIdEqualTo(user.getId());
-        userMapper.updateByExample(user, userExample);
+        userMapper.updateByExampleSelective(user, userExample);
     }
 
     @Override
@@ -262,7 +265,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void becomeProvider(Long userId) throws HuangShiZheException {
-        if(userIfProvider(userId)){
+        if (userIfProvider(userId)) {
             throw new HuangShiZheException(ResultCodeEnum.ALREADY_PROVIDER);
         }
         Provider provider = new Provider();
@@ -295,12 +298,23 @@ public class UserServiceImpl implements UserService {
         criteria.andIsDeleteEqualTo(false).andIdEqualTo(id);
         List<Provider> providerList = providerMapper.selectByExample(providerExample);
 
-        if(CollectionUtils.isEmpty(providerList)){
+        if (CollectionUtils.isEmpty(providerList)) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
+    }
+
+    @Override
+    public Boolean ifUserExitById(@NotNull(message = "用户ID不能为空") Long id) throws HuangShiZheException {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andIsDeleteEqualTo(false).andIdEqualTo(id);
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     private void sendVerification(String email, String verificationCode, EmailTemplateEnum emailTemplateEnum) throws Exception {
@@ -308,6 +322,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private String findToken(HttpServletRequest request) {
+        if (request.getCookies() == null) {
+            return null;
+        }
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(CommenEnum.huangshizhetianxiadiyi.toString())) {
                 return cookie.getValue();
