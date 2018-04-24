@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: test.ThreadTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 24.076 sec <<< FAILURE!
+testThread(test.ThreadTest)  Time elapsed: 19.266 sec  <<< ERROR!
+java.lang.OutOfMemoryError: Java heap space
+
