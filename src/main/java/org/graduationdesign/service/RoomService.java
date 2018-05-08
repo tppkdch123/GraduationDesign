@@ -27,4 +27,8 @@ public interface RoomService {
     Boolean ifRoomExist(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException;
 
     Room getRoom(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException;
+
+    List<Room> getCollectionRoom(@NotNull List<Long> roomIds) throws HuangShiZheException;
+
+    String getPicUrlByRoomId(@NotNull Long roomId) throws HuangShiZheException;
 }

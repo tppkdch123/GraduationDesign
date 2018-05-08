@@ -26,6 +26,8 @@ public class User implements Serializable {
 
     private Boolean isActive;
 
+    private Integer blance;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -114,5 +116,13 @@ public class User implements Serializable {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public Integer getBlance() {
+        return blance;
+    }
+
+    public void setBlance(Integer blance) {
+        this.blance = blance;
     }
 }

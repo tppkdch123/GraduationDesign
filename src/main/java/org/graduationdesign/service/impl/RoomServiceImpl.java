@@ -36,7 +36,7 @@ import java.util.List;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(RoomServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     @Autowired
     RoomExtendMapper roomExtendMapper;
@@ -110,16 +110,16 @@ public class RoomServiceImpl implements RoomService {
         RoomExample.Criteria criteria = roomExample.createCriteria();
         criteria.andIsDeleteEqualTo(false).andCityIdEqualTo(cityId);
         PageHelper.startPage(pageNum, size);
-        List<Room> roomList =roomMapper.selectByExample(roomExample);
+        List<Room> roomList = roomMapper.selectByExample(roomExample);
         return new PageInfo<>(roomList);
     }
 
     @Override
     public Boolean ifRoomExist(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException {
-        RoomExample roomExample=new RoomExample();
+        RoomExample roomExample = new RoomExample();
         roomExample.createCriteria().andIsDeleteEqualTo(false).andIdEqualTo(id);
-        List<Room> roomList=roomMapper.selectByExample(roomExample);
-        if(CollectionUtils.isEmpty(roomList)){
+        List<Room> roomList = roomMapper.selectByExample(roomExample);
+        if (CollectionUtils.isEmpty(roomList)) {
             return false;
         }
         return true;
@@ -127,13 +127,34 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getRoom(@NotNull(message = "roomId不能为空") Long id) throws HuangShiZheException {
-        RoomExample roomExample=new RoomExample();
+        RoomExample roomExample = new RoomExample();
         roomExample.createCriteria().andIsDeleteEqualTo(false).andIdEqualTo(id);
-        List<Room> roomList=roomMapper.selectByExample(roomExample);
-        if(CollectionUtils.isEmpty(roomList)){
+        List<Room> roomList = roomMapper.selectByExample(roomExample);
+        if (CollectionUtils.isEmpty(roomList)) {
             throw new HuangShiZheException(ResultCodeEnum.ROOM_NOT_EXIT);
         }
         return roomList.get(0);
+    }
+
+    @Override
+    public List<Room> getCollectionRoom(List<Long> roomIds) throws HuangShiZheException {
+        RoomExample roomExample=new RoomExample();
+        RoomExample.Criteria criteria=roomExample.createCriteria();
+        criteria.andIdIn(roomIds).andIsDeleteEqualTo(false);
+        return roomMapper.selectByExample(roomExample);
+    }
+
+    @Override
+    public String getPicUrlByRoomId(@NotNull Long roomId) throws HuangShiZheException {
+        RoomExtendExample roomExample = new RoomExtendExample();
+        RoomExtendExample.Criteria criteria = roomExample.createCriteria();
+        criteria.andRoomIdEqualTo(roomId).andTypeEqualTo(0);
+        PageHelper.startPage(1,1);
+        List<RoomExtend> roomExtendMapperList = roomExtendMapper.selectByExample(roomExample);
+        if(CollectionUtils.isEmpty(roomExtendMapperList)){
+            return null;
+        }
+        return roomExtendMapperList.get(0).getValue();
     }
 
     private List<MetaVO> generateMetaVO(List<MetaRoom> metaRoomList) throws HuangShiZheException {

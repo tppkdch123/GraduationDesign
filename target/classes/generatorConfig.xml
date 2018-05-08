@@ -44,9 +44,6 @@
        <!-- <table tableName="room" domainObjectName="Room" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
-       <table tableName="user" domainObjectName="User" delimitIdentifiers="true">
-           <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
         <table tableName="provider" domainObjectName="Provider" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>
@@ -89,13 +86,15 @@
         <table tableName="room_extend" domainObjectName="RoomExtend" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
         </table>-->
-        <!--<table tableName="collection" domainObjectName="Collection" delimitIdentifiers="true">
-            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>
+        <!--
         <table tableName="orders" domainObjectName="Orders" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
-        </table>-->
+        </table>
         <table tableName="date_price" domainObjectName="DatePrice" delimitIdentifiers="true">
         </table>
+        <table tableName="user" domainObjectName="User" delimitIdentifiers="true">
+            <generatedKey column="id" sqlStatement="MYSQL" identity="true" type="post"></generatedKey>
+        </table>-->
+        <table tableName="collections" domainObjectName="Collections" delimitIdentifiers="true"/>
     </context>
 </generatorConfiguration>

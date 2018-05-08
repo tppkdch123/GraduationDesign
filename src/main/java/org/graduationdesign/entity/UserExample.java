@@ -814,6 +814,66 @@ public class UserExample {
             addCriterion("is_active not between", value1, value2, "isActive");
             return (Criteria) this;
         }
+
+        public Criteria andBlanceIsNull() {
+            addCriterion("blance is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceIsNotNull() {
+            addCriterion("blance is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceEqualTo(Integer value) {
+            addCriterion("blance =", value, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceNotEqualTo(Integer value) {
+            addCriterion("blance <>", value, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceGreaterThan(Integer value) {
+            addCriterion("blance >", value, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("blance >=", value, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceLessThan(Integer value) {
+            addCriterion("blance <", value, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceLessThanOrEqualTo(Integer value) {
+            addCriterion("blance <=", value, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceIn(List<Integer> values) {
+            addCriterion("blance in", values, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceNotIn(List<Integer> values) {
+            addCriterion("blance not in", values, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceBetween(Integer value1, Integer value2) {
+            addCriterion("blance between", value1, value2, "blance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlanceNotBetween(Integer value1, Integer value2) {
+            addCriterion("blance not between", value1, value2, "blance");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
