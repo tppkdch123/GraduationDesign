@@ -18,6 +18,7 @@ import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.mappers.MetaRoomMapper;
 import org.graduationdesign.mappers.RoomExtendMapper;
 import org.graduationdesign.mappers.RoomMapper;
+import org.graduationdesign.service.LocationService;
 import org.graduationdesign.service.MetaService;
 import org.graduationdesign.service.RoomService;
 import org.graduationdesign.service.UserService;
@@ -52,6 +53,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    LocationService locationService;
 
     @Override
     public void addNewRoom(RoomWithBLOBs roomWithBLOBs, HttpServletRequest httpServletRequest) throws HuangShiZheException {
@@ -157,6 +161,17 @@ public class RoomServiceImpl implements RoomService {
         return roomExtendMapperList.get(0).getValue();
     }
 
+    @Override
+    public void changeRoomInfo(HttpServletRequest request,@NotNull RoomWithBLOBs room) throws HuangShiZheException {
+        if(!ifRoomExist(room.getId())){
+            throw new HuangShiZheException(ResultCodeEnum.ROOM_NOT_EXIT);
+        }
+        if(userService.getProviderByUserId(userService.getCurrentUser(request).getId())==null){
+            throw new HuangShiZheException(ResultCodeEnum.UNKOWN_ERROR);
+        }
+        roomMapper.updateByPrimaryKeySelective(room);
+    }
+
     private List<MetaVO> generateMetaVO(List<MetaRoom> metaRoomList) throws HuangShiZheException {
         List<MetaVO> metaVOList = Lists.newArrayList();
         for (MetaRoom metaRoom : metaRoomList) {
@@ -170,7 +185,7 @@ public class RoomServiceImpl implements RoomService {
         }
         return metaVOList;
     }
-
+    
     public List<MetaVO> ConvertMeta2VO(List<MetaRoom> metaRoomList) {
         return null;
     }

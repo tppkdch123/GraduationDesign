@@ -10,4 +10,6 @@ public interface CollectionService {
     public void collect(HttpServletRequest request, Long roomId) throws HuangShiZheException;
 
     public List<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException;
+
+    public void cancel(HttpServletRequest request,Long roomId) throws HuangShiZheException;
 }

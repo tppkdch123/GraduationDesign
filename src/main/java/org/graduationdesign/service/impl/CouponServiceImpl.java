@@ -74,6 +74,15 @@ public class CouponServiceImpl implements CouponService {
         userCouponMapper.insertSelective(userCoupon);
     }
 
+    @Override
+    public void useCoupon(@NotNull(message = "id不能为空") Long id) throws HuangShiZheException {
+        UserCouponExample userCouponExample=new UserCouponExample();
+        userCouponExample.createCriteria().andIsInvalidEqualTo(false).andIdEqualTo(id);
+        UserCoupon userCoupon=new UserCoupon();
+        userCoupon.setIsInvalid(true);
+        userCouponMapper.updateByExampleSelective(userCoupon,userCouponExample);
+    }
+
     private Boolean ifConponExit(Long couponId) throws HuangShiZheException {
         CouponExample couponExample = new CouponExample();
         couponExample.createCriteria().andIdEqualTo(couponId);

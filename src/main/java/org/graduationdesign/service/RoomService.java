@@ -31,4 +31,6 @@ public interface RoomService {
     List<Room> getCollectionRoom(@NotNull List<Long> roomIds) throws HuangShiZheException;
 
     String getPicUrlByRoomId(@NotNull Long roomId) throws HuangShiZheException;
+
+    void changeRoomInfo(HttpServletRequest request,@NotNull RoomWithBLOBs room) throws HuangShiZheException;
 }

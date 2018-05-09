@@ -1,5 +1,6 @@
 package org.graduationdesign.controller;
 
+import com.sun.org.apache.regexp.internal.REProgram;
 import org.apache.ibatis.annotations.Param;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
@@ -34,7 +35,8 @@ public class CollectionController extends BaseController {
     }
 
     @RequestMapping(value = "cancel",method = RequestMethod.GET)
-    public UnifiedResponse cancel(HttpServletRequest request){
-        return null;
+    public UnifiedResponse cancel(HttpServletRequest request,Long roomId) throws HuangShiZheException{
+        collectionService.cancel(request,roomId);
+        return new UnifiedResponse(ResultCodeEnum.SUCCESS);
     }
 }

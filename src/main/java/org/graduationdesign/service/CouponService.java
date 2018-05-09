@@ -16,4 +16,6 @@ public interface CouponService {
     void getCoupon(@NotNull(message = "couponId不能为空") Long couponId, HttpServletRequest request) throws HuangShiZheException;
 
     void giveCoupon(@NotNull(message = "couponId不能为空") Long couponId, Long userId, Long startTime, Long endTime) throws HuangShiZheException;
+
+    void useCoupon(@NotNull(message = "id不能为空") Long id) throws HuangShiZheException;
 }

@@ -5,15 +5,18 @@ import com.github.pagehelper.PageInfo;
 import org.graduationdesign.entity.Orders;
 import org.graduationdesign.entity.OrdersExample;
 import org.graduationdesign.entity.User;
+import org.graduationdesign.entity.UserCoupon;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.mappers.OrdersMapper;
+import org.graduationdesign.service.CouponService;
 import org.graduationdesign.service.OrderService;
 import org.graduationdesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import sun.plugin2.jvm.RemoteJVMLauncher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -28,6 +31,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CouponService couponService;
 
 
     @Override
@@ -58,13 +64,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public void generateOrder(@NotNull(message = "参数不能为空") Orders order,HttpServletRequest request) throws HuangShiZheException {
-       order.setCreateTime(new Date());
-       order.setUserId(userService.getCurrentUser(request).getId());
-       order.setIsDelete(false);
-       OrdersExample ordersExample=new OrdersExample();
-       orderMapper.insertSelective(order);
+    public void generateOrder(@NotNull(message = "参数不能为空") Orders order, HttpServletRequest request, Long couponId) throws HuangShiZheException {
+        order.setIsDelete(false);
+        order.setUserId(userService.getCurrentUser(request).getId());
+        orderMapper.insertSelective(order);
+        if(couponId!=null){
+            couponService.useCoupon(couponId);
+        }
     }
 
     @Override

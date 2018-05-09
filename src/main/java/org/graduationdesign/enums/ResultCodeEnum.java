@@ -30,6 +30,7 @@ public enum ResultCodeEnum {
     COUPON_NOT_EXIST(22,"优惠券不存在"),
     CITY_NOT_EXIST(23,"城市不存在"),
     PROVINCE_NOT_EXIT(24,"省不存在"),
+    NOT_COLLECT(25,"没有关注这个房源"),
 
     ;
     private Integer code;

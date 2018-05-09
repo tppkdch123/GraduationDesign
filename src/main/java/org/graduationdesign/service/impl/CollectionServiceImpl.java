@@ -2,6 +2,7 @@ package org.graduationdesign.service.impl;
 
 import org.graduationdesign.entity.Collections;
 import org.graduationdesign.entity.CollectionsExample;
+import org.graduationdesign.entity.Comment;
 import org.graduationdesign.entity.Room;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
@@ -16,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class CollectionServiceImpl implements CollectionService {
 
     @Autowired
     UserService userService;
+
 
     @Autowired
     RoomService roomService;
@@ -56,6 +59,19 @@ public class CollectionServiceImpl implements CollectionService {
         }
         return convertRoom2VO(roomService.getCollectionRoom(roomIds));
     }
+
+    @Override
+    public void cancel(HttpServletRequest request,Long roomId) throws HuangShiZheException {
+        Collections collections1=new Collections();
+        collections1.setIsDelete(true);
+        CollectionsExample collectionsExample=new CollectionsExample();
+        collectionsExample.createCriteria().andIsDeleteEqualTo(false).andUserIdEqualTo(userService.getCurrentUser(request).getId()).andRoomIdEqualTo(roomId);
+        int u=collectionsMapper.updateByExampleSelective(collections1,collectionsExample);
+        if(u<=0){
+            throw new HuangShiZheException(ResultCodeEnum.NOT_COLLECT);
+        }
+    }
+
 
     private List<RoomVO> convertRoom2VO(List<Room> rooms) throws HuangShiZheException{
         List<RoomVO> roomVOList=new ArrayList<>();
