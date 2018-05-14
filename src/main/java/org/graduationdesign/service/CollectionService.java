@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface CollectionService {
-    public void collect(HttpServletRequest request, Long roomId) throws HuangShiZheException;
+    void collect(HttpServletRequest request, Long roomId) throws HuangShiZheException;
 
-    public List<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException;
+    List<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException;
 
-    public void cancel(HttpServletRequest request,Long roomId) throws HuangShiZheException;
+    void cancel(HttpServletRequest request, Long roomId) throws HuangShiZheException;
+
+    void click(HttpServletRequest request, Long roomId) throws HuangShiZheException;
 }

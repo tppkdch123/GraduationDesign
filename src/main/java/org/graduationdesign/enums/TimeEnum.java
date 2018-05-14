@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum TimeEnum {
-    TOKEN_TIEMOUT(1,"redis里token过期时间",300),
-    COOKIE_TIMEOUT(2,"sso cookie过期时间",300)
+    TOKEN_TIEMOUT(1,"redis里token过期时间",60*60*24),
+    COOKIE_TIMEOUT(2,"sso cookie过期时间",60*60*24)
 
     ;
     private Integer code;

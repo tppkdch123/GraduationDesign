@@ -34,9 +34,15 @@ public class CollectionController extends BaseController {
         return new UnifiedResponse(roomVOList);
     }
 
-    @RequestMapping(value = "cancel",method = RequestMethod.GET)
+    @RequestMapping(value = "/cancel",method = RequestMethod.GET)
     public UnifiedResponse cancel(HttpServletRequest request,Long roomId) throws HuangShiZheException{
         collectionService.cancel(request,roomId);
+        return new UnifiedResponse(ResultCodeEnum.SUCCESS);
+    }
+
+    @RequestMapping(value="/click",method = RequestMethod.GET)
+    public UnifiedResponse click(HttpServletRequest request,Long roomId) throws HuangShiZheException{
+        collectionService.click(request,roomId);
         return new UnifiedResponse(ResultCodeEnum.SUCCESS);
     }
 }

@@ -22,7 +22,7 @@ public class MajorInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-        userService = (UserService) factory.getBean("userService");
+        userService = factory.getBean(UserService.class);
         if (request.getRequestURI().equals("/api/user/hello-user")) {
             User user=userService.getCurrentUser(request);
             if (user != null) {

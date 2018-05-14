@@ -2,7 +2,6 @@ package org.graduationdesign.service.impl;
 
 import org.graduationdesign.entity.Collections;
 import org.graduationdesign.entity.CollectionsExample;
-import org.graduationdesign.entity.Comment;
 import org.graduationdesign.entity.Room;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
@@ -13,11 +12,11 @@ import org.graduationdesign.service.UserService;
 import org.graduationdesign.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,13 +61,29 @@ public class CollectionServiceImpl implements CollectionService {
 
     @Override
     public void cancel(HttpServletRequest request,Long roomId) throws HuangShiZheException {
-        Collections collections1=new Collections();
-        collections1.setIsDelete(true);
         CollectionsExample collectionsExample=new CollectionsExample();
-        collectionsExample.createCriteria().andIsDeleteEqualTo(false).andUserIdEqualTo(userService.getCurrentUser(request).getId()).andRoomIdEqualTo(roomId);
-        int u=collectionsMapper.updateByExampleSelective(collections1,collectionsExample);
-        if(u<=0){
-            throw new HuangShiZheException(ResultCodeEnum.NOT_COLLECT);
+        collectionsExample.createCriteria().andUserIdEqualTo(userService.getCurrentUser(request).getId()).andRoomIdEqualTo(roomId);
+        List<Collections> collectionsList=collectionsMapper.selectByExample(collectionsExample);
+        for(int i=0;i<collectionsList.size();i++){
+            collectionsList.get(i).setIsDelete(collectionsList.get(i).getIsDelete()?false:true);
+            collectionsMapper.updateByPrimaryKey(collectionsList.get(i));
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void click(HttpServletRequest request, Long roomId) throws HuangShiZheException {
+        CollectionsExample collectionsExample=new CollectionsExample();
+        collectionsExample.createCriteria().andRoomIdEqualTo(roomId).andUserIdEqualTo(userService.getCurrentUser(request).getId());
+        List<Collections> collectionsList=collectionsMapper.selectByExample(collectionsExample);
+        if(CollectionUtils.isEmpty(collectionsList)){
+            collect(request,roomId);
+        }
+        else{
+            for(int i=0;i<collectionsList.size();i++){
+                collectionsList.get(i).setIsDelete(collectionsList.get(i).getIsDelete()?false:true);
+                collectionsMapper.updateByPrimaryKey(collectionsList.get(i));
+            }
         }
     }
 
@@ -79,8 +94,10 @@ public class CollectionServiceImpl implements CollectionService {
             Room room=rooms.get(i);
             RoomVO roomVO=new RoomVO();
             roomVO.setId(room.getId());
-            roomVO.setInfo(room.getStructure());
+            roomVO.setInfo(room.getStructure()+"|"+room.getHostMessage()+"|最多可住"+room.getMaxCapacity()+"人|"+room.getBlock()+"|"+room.getBedCount());
             roomVO.setPicUrl(roomService.getPicUrlByRoomId(room.getId()));
+            roomVO.setPrice(room.getDefaultPrice());
+            roomVO.setTitle(room.getTitle());
             roomVOList.add(roomVO);
         }
         return roomVOList;

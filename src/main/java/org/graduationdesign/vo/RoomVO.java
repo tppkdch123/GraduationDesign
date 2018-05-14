@@ -9,4 +9,8 @@ public class RoomVO {
     private String picUrl;
 
     private String info;
+
+    private String title;
+
+    private Integer price;
 }
