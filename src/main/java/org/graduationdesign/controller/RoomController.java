@@ -10,6 +10,7 @@ import org.graduationdesign.service.MetaService;
 import org.graduationdesign.service.RoomService;
 import org.graduationdesign.util.UnifiedResponse;
 import org.graduationdesign.vo.MetaVO;
+import org.graduationdesign.vo.RoomVO;
 import org.python.tests.props.PropShadow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,7 +65,7 @@ public class RoomController extends BaseController{
 
     @RequestMapping(value="/city-room",method = RequestMethod.GET)
     public UnifiedResponse getRoomByCity(@RequestParam Integer cityId,@RequestParam Integer pageNum,@RequestParam Integer size) throws HuangShiZheException{
-        PageInfo<Room> rooms=roomService.getRoomByCity(cityId,pageNum,size);
+        PageInfo<RoomVO> rooms=roomService.getRoomByCity(cityId,pageNum,size);
         return new UnifiedResponse(rooms);
     }
 

@@ -1,5 +1,6 @@
 package org.graduationdesign.service;
 
+import com.github.pagehelper.PageInfo;
 import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.vo.RoomVO;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public interface CollectionService {
     void collect(HttpServletRequest request, Long roomId) throws HuangShiZheException;
 
-    List<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException;
+PageInfo<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException;
 
     void cancel(HttpServletRequest request, Long roomId) throws HuangShiZheException;
 

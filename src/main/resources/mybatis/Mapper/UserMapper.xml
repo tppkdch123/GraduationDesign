@@ -321,4 +321,7 @@
   <select id="judgePassword" resultType="boolean">
     select password=md5(#{password}) from user where email=#{email}
   </select>
+  <select id="judgePassword2" resultType="org.graduationdesign.entity.User">
+    select   <include refid="Base_Column_List" /> from user where email=#{email} and password=md5(#{password})
+  </select>
 </mapper>

@@ -29,4 +29,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     boolean judgePassword(@Param("password") String password,@Param("email") String email);
+
+    User judgePassword2(@Param("password") String password,@Param("email") String email);
 }

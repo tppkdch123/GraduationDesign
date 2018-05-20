@@ -3,10 +3,12 @@ package org.graduationdesign.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import org.graduationdesign.entity.City;
 import org.graduationdesign.entity.Meta;
 import org.graduationdesign.entity.MetaRoom;
 import org.graduationdesign.entity.MetaRoomExample;
 import org.graduationdesign.entity.Provider;
+import org.graduationdesign.entity.Province;
 import org.graduationdesign.entity.Room;
 import org.graduationdesign.entity.RoomExample;
 import org.graduationdesign.entity.RoomExtend;
@@ -23,6 +25,8 @@ import org.graduationdesign.service.MetaService;
 import org.graduationdesign.service.RoomService;
 import org.graduationdesign.service.UserService;
 import org.graduationdesign.vo.MetaVO;
+import org.graduationdesign.vo.RoomVO;
+import org.graduationdesign.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +61,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     LocationService locationService;
+
+    @Autowired
+    RoomService roomService;
 
     @Override
     public void addNewRoom(RoomWithBLOBs roomWithBLOBs, HttpServletRequest httpServletRequest) throws HuangShiZheException {
@@ -109,13 +117,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public PageInfo<Room> getRoomByCity(@NotNull(message = "cityId不能为空") Integer cityId, @NotNull Integer pageNum, @NotNull Integer size) throws HuangShiZheException {
+    public PageInfo<RoomVO> getRoomByCity(@NotNull(message = "cityId不能为空") Integer cityId, @NotNull Integer pageNum, @NotNull Integer size) throws HuangShiZheException {
         RoomExample roomExample = new RoomExample();
         RoomExample.Criteria criteria = roomExample.createCriteria();
         criteria.andIsDeleteEqualTo(false).andCityIdEqualTo(cityId);
         PageHelper.startPage(pageNum, size);
         List<Room> roomList = roomMapper.selectByExample(roomExample);
-        return new PageInfo<>(roomList);
+        List<RoomVO> roomVOList=convertRoom2VO(roomList);
+        return new PageInfo<>(roomVOList);
     }
 
     @Override
@@ -189,4 +198,25 @@ public class RoomServiceImpl implements RoomService {
     public List<MetaVO> ConvertMeta2VO(List<MetaRoom> metaRoomList) {
         return null;
     }
+    private List<RoomVO> convertRoom2VO(List<Room> rooms) throws HuangShiZheException{
+    List<RoomVO> roomVOList=new ArrayList<>();
+        for(int i=0;i<rooms.size();i++){
+        Room room=rooms.get(i);
+        RoomVO roomVO=new RoomVO();
+        roomVO.setId(room.getId());
+        roomVO.setInfo(room.getStructure()+"|"+room.getHostMessage()+"|最多可住"+room.getMaxCapacity()+"人|"+room.getBlock()+"|"+room.getBedCount());
+        roomVO.setPicUrl(roomService.getPicUrlByRoomId(room.getId()));
+        roomVO.setPrice(room.getDefaultPrice());
+        roomVO.setTitle(room.getTitle());
+        City city=locationService.getCityById(room.getCityId());
+        Province province=locationService.getProvinceById(room.getProvinceId());
+        roomVO.setProvince(province.getProvinceName());
+        roomVO.setCity(city.getName());
+        roomVO.setRoomArea(room.getUsableArea());
+        UserVO user=userService.getUserInfoById(room.getProviderId());
+        roomVO.setProviderUrl(user.getUserAvatarUrl());
+        roomVOList.add(roomVO);
+    }
+        return roomVOList;
+}
 }

@@ -186,15 +186,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public void login(HttpServletResponse response, String email, String password) throws HuangShiZheException {
+    public User login(HttpServletResponse response, String email, String password) throws HuangShiZheException {
         EmailUtil.ifEmail(email);
         if (!userIfExits(email)) {
             throw new HuangShiZheException(ResultCodeEnum.USER_NOT_EXIT);
         }
-        boolean b = userMapper.judgePassword(password, email);
-        if (b) {
+        User user=userMapper.judgePassword2(password,email);
+        if(user!=null){
+            user=userMapper.selectByPrimaryKey(user.getId());
+        }
+        if (user!=null) {
             String token = UUID.randomUUID().toString();
+            //user.setUserAvatarUrl("https://img.meituan.net/avatar/fa6ff5a828e413f3983942ca383b49e0311608.jpg@200w_200h_1e_1c");
             Cookie cookie = new Cookie(CommenEnum.huangshizhetianxiadiyi.toString(), token);
             cookie.setMaxAge(TimeEnum.TOKEN_TIEMOUT.getValue());
             cookie.setPath("/");
@@ -205,7 +208,7 @@ public class UserServiceImpl implements UserService {
             }
             jedisPool.getResource().setex(RPREFIX + email, TimeEnum.TOKEN_TIEMOUT.getValue(), token);
             jedisPool.getResource().setex(token, TimeEnum.TOKEN_TIEMOUT.getValue(), email);
-            return;
+            return user;
         } else {
             throw new HuangShiZheException(ResultCodeEnum.PASSWORD_ERROR);
         }
@@ -315,6 +318,11 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Provider getProviderById(@NotNull Long providerId) throws HuangShiZheException {
+        return providerMapper.selectByPrimaryKey(providerId);
     }
 
     private void sendVerification(String email, String verificationCode, EmailTemplateEnum emailTemplateEnum) throws Exception {

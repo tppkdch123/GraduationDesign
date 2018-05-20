@@ -1,5 +1,6 @@
 package org.graduationdesign.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.regexp.internal.REProgram;
 import org.apache.ibatis.annotations.Param;
 import org.graduationdesign.enums.ResultCodeEnum;
@@ -30,7 +31,7 @@ public class CollectionController extends BaseController {
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public UnifiedResponse getCollections(HttpServletRequest request) throws HuangShiZheException{
-        List<RoomVO> roomVOList=collectionService.getCollections(request);
+        PageInfo<RoomVO> roomVOList=collectionService.getCollections(request);
         return new UnifiedResponse(roomVOList);
     }
 

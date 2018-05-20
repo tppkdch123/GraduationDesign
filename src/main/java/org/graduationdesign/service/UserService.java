@@ -71,7 +71,7 @@ public interface UserService {
      * @param password
      * @throws HuangShiZheException
      */
-    void login(HttpServletResponse response, @NotNull(message = "邮箱不能为空") String email, @NotNull(message = "密码不能为空") String password) throws HuangShiZheException;
+    User login(HttpServletResponse response, @NotNull(message = "邮箱不能为空") String email, @NotNull(message = "密码不能为空") String password) throws HuangShiZheException;
 
     /**
      * 修改自己的信息
@@ -100,5 +100,7 @@ public interface UserService {
     Boolean userIfProvider(@NotNull(message = "用户id不能为空") Long id) throws HuangShiZheException;
 
     Boolean ifUserExitById(@NotNull(message="用户ID不能为空") Long id) throws HuangShiZheException;
+
+    Provider getProviderById(@NotNull Long providerId) throws HuangShiZheException;
 
 }

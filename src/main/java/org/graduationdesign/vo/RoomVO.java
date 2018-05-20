@@ -13,4 +13,14 @@ public class RoomVO {
     private String title;
 
     private Integer price;
+
+    private String providerUrl;
+
+    private Integer roomArea;
+
+    private String providerName;
+
+    private String city;
+
+    private String province;
 }

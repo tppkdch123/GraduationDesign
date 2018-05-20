@@ -16,9 +16,16 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import javax.websocket.Encoder;
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
@@ -64,7 +71,8 @@ public class myTest {
 
         // 对上面wholeStr再作utf8编码
         String tempStr = URLEncoder.encode(wholeStr, "UTF-8");
-        System.out.println(MD5(tempStr));
+        String url="http://api.map.baidu.com/location/ip?ak=4AWbhbXnGptGBuy4rlyDNd5rHfSPQeZR&sn="+MD5(tempStr);
+        System.out.println(getJsonResult(url,new HashMap<>()));
 
     }
 
@@ -221,6 +229,55 @@ public class myTest {
     @Test
     public void test222() throws Exception {
         System.out.println(CommenEnum.huangshizhetianxiadiyi.toString());
+    }
+    public static String getJsonResult(String url, Map<String, String> params) {
+        HttpURLConnection conn = null;
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("?");
+            for (Map.Entry entry : params.entrySet()) {
+                stringBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+            }
+            URL myurl = new URL(url);
+            conn = (HttpURLConnection) myurl.openConnection();
+            conn.setConnectTimeout(2000);
+            conn.setReadTimeout(3000);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                return getJsonFromConnection(conn);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String getJsonFromConnection(HttpURLConnection conn) {
+        StringBuffer result = new StringBuffer();
+        try {
+
+            InputStream inputStream = conn.getInputStream();
+            Reader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String str = bufferedReader.readLine();
+            result.append(str);
+            while ((str = bufferedReader.readLine()) != null) {
+                result.append("\r\n");
+                result.append(str);
+            }
+            bufferedReader.close();
+            inputStream.close();
+            conn.disconnect();
+            return result.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            conn.disconnect();
+        }
+        return null;
     }
 }
 

@@ -20,4 +20,8 @@ public interface LocationService {
     City getCityByName(@NotNull(message="城市名不能为空") String cityName) throws HuangShiZheException;
 
     Province getProvinceByName(@NotNull(message="省名不能为空") String provinceName) throws HuangShiZheException;
+
+    Province getProvinceById(@NotNull Integer provinceId) throws HuangShiZheException;
+
+    public City getCityById(@NotNull Integer cityId) throws HuangShiZheException;
 }

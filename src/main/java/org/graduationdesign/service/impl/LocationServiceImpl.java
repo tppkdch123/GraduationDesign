@@ -83,4 +83,15 @@ public class LocationServiceImpl implements LocationService {
 
         return provinces.get(0);
     }
+
+    @Override
+    public Province getProvinceById(@NotNull Integer provinceId) throws HuangShiZheException {
+
+        return provinceMapper.selectByPrimaryKey(provinceId);
+    }
+
+    @Override
+    public City getCityById(@NotNull Integer cityId) throws HuangShiZheException{
+        return cityMapper.selectByPrimaryKey(cityId);
+    }
 }

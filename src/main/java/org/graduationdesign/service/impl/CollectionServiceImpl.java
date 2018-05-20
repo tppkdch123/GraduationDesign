@@ -1,15 +1,21 @@
 package org.graduationdesign.service.impl;
 
+import com.github.pagehelper.PageInfo;
+import org.graduationdesign.entity.City;
 import org.graduationdesign.entity.Collections;
 import org.graduationdesign.entity.CollectionsExample;
+import org.graduationdesign.entity.Province;
 import org.graduationdesign.entity.Room;
+import org.graduationdesign.entity.User;
 import org.graduationdesign.enums.ResultCodeEnum;
 import org.graduationdesign.exception.HuangShiZheException;
 import org.graduationdesign.mappers.CollectionsMapper;
 import org.graduationdesign.service.CollectionService;
+import org.graduationdesign.service.LocationService;
 import org.graduationdesign.service.RoomService;
 import org.graduationdesign.service.UserService;
 import org.graduationdesign.vo.RoomVO;
+import org.graduationdesign.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +40,9 @@ public class CollectionServiceImpl implements CollectionService {
     @Autowired
     RoomService roomService;
 
+    @Autowired
+    LocationService locationService;
+
     @Override
     public void collect(HttpServletRequest request, Long roomId) throws HuangShiZheException{
         if(!roomService.ifRoomExist(roomId)){
@@ -49,14 +58,14 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public List<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException{
+    public PageInfo<RoomVO> getCollections(HttpServletRequest request) throws HuangShiZheException{
         CollectionsExample collectionsExample=new CollectionsExample();
         collectionsExample.createCriteria().andUserIdEqualTo(userService.getCurrentUser(request).getId()).andIsDeleteEqualTo(false);
         List<Long> roomIds=collectionsMapper.selectByExample(collectionsExample).stream().map(Collections::getRoomId).collect(Collectors.toList());
         if(CollectionUtils.isEmpty(roomIds)){
-            return new ArrayList<>();
+            return new PageInfo<>();
         }
-        return convertRoom2VO(roomService.getCollectionRoom(roomIds));
+        return new PageInfo<>(convertRoom2VO(roomService.getCollectionRoom(roomIds)));
     }
 
     @Override
@@ -98,8 +107,16 @@ public class CollectionServiceImpl implements CollectionService {
             roomVO.setPicUrl(roomService.getPicUrlByRoomId(room.getId()));
             roomVO.setPrice(room.getDefaultPrice());
             roomVO.setTitle(room.getTitle());
+            City city=locationService.getCityById(room.getCityId());
+            Province province=locationService.getProvinceById(room.getProvinceId());
+            roomVO.setProvince(province.getProvinceName());
+            roomVO.setCity(city.getName());
+            roomVO.setRoomArea(room.getUsableArea());
+            UserVO user=userService.getUserInfoById(room.getProviderId());
+            roomVO.setProviderUrl(user.getUserAvatarUrl());
             roomVOList.add(roomVO);
         }
         return roomVOList;
     }
+
 }

@@ -40,8 +40,9 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/loginByPassword", method = RequestMethod.GET)
     public UnifiedResponse login(HttpServletResponse response, @RequestParam("email") String email, @RequestParam("password") String password) throws HuangShiZheException {
-        userService.login(response, email, password);
-        return new UnifiedResponse(ResultCodeEnum.SUCCESS);
+        System.out.println("用密码登录");
+        User user =userService.login(response, email, password);
+        return new UnifiedResponse(user);
     }
 
     @RequestMapping(value = "/updateInfo", method = RequestMethod.GET)

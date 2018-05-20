@@ -44,9 +44,9 @@ public class EmailTest {
 // 设置发送方式与接收者
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress("hgftderwsy@qq.com"));
 // 设置主题
-            message.setSubject("邮件发送测试");
+            message.setSubject("注册验证码");
 // 设置内容
-            message.setContent("测试Test", "text/html;charset=utf-8");
+            message.setContent("验证码：BXCV", "text/html;charset=utf-8");
 
 // 3.创建 Transport用于将邮件发送
             Transport.send(message);
