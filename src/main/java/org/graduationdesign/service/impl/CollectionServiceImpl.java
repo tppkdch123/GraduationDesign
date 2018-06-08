@@ -113,6 +113,7 @@ public class CollectionServiceImpl implements CollectionService {
             roomVO.setCity(city.getName());
             roomVO.setRoomArea(room.getUsableArea());
             UserVO user=userService.getUserInfoById(room.getProviderId());
+            roomVO.setProviderName(user.getName());
             roomVO.setProviderUrl(user.getUserAvatarUrl());
             roomVOList.add(roomVO);
         }
